@@ -1,1 +1,1 @@
-# VU_Academy
+# Isekai VTuver Academy
