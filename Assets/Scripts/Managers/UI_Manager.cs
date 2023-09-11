@@ -22,7 +22,7 @@ public class UI_Manager
     public void SetCanavas(GameObject go, bool sort = true)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
-        canvas.renderMode= RenderMode.ScreenSpaceOverlay;
+        //canvas.renderMode= RenderMode.ScreenSpaceOverlay;
         canvas.overrideSorting = true;
 
         if(sort)
