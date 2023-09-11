@@ -32,7 +32,7 @@ public class UI_MainBackUI : UI_Scene
 
         Button CreateScheduleBTN = Get<Button>((int)Buttons.CreateScheduleBTN);
 
-        CreateScheduleBTN.onClick.AddListener(ShowCreateSchedulePopup);
+        CreateScheduleBTN.onClick.AddListener(ShowOrCloseCreateSchedulePopup);
 
         InitTextComponents();
     }
@@ -64,8 +64,21 @@ public class UI_MainBackUI : UI_Scene
         }
     }
 
-    void ShowCreateSchedulePopup()
+    bool isPopupOpen = false;
+    void ShowOrCloseCreateSchedulePopup()
     {
-        Managers.UI_Manager.ShowPopupUI<UI_SchedulePopup>();
+        TMP_Text CreateScheduleTMP = Get<Button>((int)Buttons.CreateScheduleBTN).GetComponentInChildren<TMP_Text>();
+
+        if (isPopupOpen)
+        {
+            Managers.UI_Manager.ClosePopupUI();
+            CreateScheduleTMP.text = "스케쥴 작성하기";
+        }
+        else
+        {
+            Managers.UI_Manager.ShowPopupUI<UI_SchedulePopup>();
+            CreateScheduleTMP.text = "방으로 돌아가기";
+        }        
+        isPopupOpen = !isPopupOpen;
     }
 }

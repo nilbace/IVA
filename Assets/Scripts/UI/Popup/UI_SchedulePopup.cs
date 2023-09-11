@@ -25,7 +25,10 @@ public class UI_SchedulePopup : UI_Popup
         Thursday,
         Friday,
         Saturday,
-        Sunday
+        Sunday,
+        Days7,
+        Contents3,
+        SubContents4
     }
 
     enum Images
@@ -42,10 +45,7 @@ public class UI_SchedulePopup : UI_Popup
     {
         base.Init();
 
-        //Bind<Button>(typeof(Buttons));
-        //Bind<TMP_Text>(typeof(Texts));
         Bind<GameObject>(typeof(GameObjects));
-        //Bind<Image>(typeof(Images));
 
         for (int i = 0; i < 7; i++)
         {
