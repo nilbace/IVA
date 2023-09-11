@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.8
+  m_fontSize: 17.75
   m_fontSizeBase: 27.86
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -244,8 +244,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.05, y: 1.38}
-  m_SizeDelta: {x: 139.1345, y: 20.222}
+  m_AnchoredPosition: {x: -0.0517, y: 1.3586}
+  m_SizeDelta: {x: 139.0302, y: 21.5196}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &132624208135195486
 CanvasRenderer:
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &132624208217058514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93df17db35ad0b4abe372562b1c923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Orange: {r: 1, g: 0.55216295, b: 0.16509432, a: 1}
 --- !u!1 &132624208816980264
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,10 +638,10 @@ RectTransform:
   m_Father: {fileID: 1002721517295616681}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 31.6, y: -4.6}
+  m_SizeDelta: {x: 20.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8173612232073404698
 CanvasRenderer:
@@ -871,7 +872,7 @@ GameObject:
   - component: {fileID: 5044384576827266462}
   - component: {fileID: 6716705389342722830}
   m_Layer: 5
-  m_Name: Button (6)
+  m_Name: SundayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1126,7 +1127,7 @@ GameObject:
   - component: {fileID: 6181137383286559303}
   - component: {fileID: 3556983975764803646}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: TuesdayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1268,10 +1269,10 @@ RectTransform:
   m_Father: {fileID: 1002721517295616681}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10.35, y: -4.6}
+  m_SizeDelta: {x: 20.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4264181376611158657
 CanvasRenderer:
@@ -1368,7 +1369,7 @@ GameObject:
   - component: {fileID: 3004059702597309308}
   - component: {fileID: 7257814288445910879}
   m_Layer: 5
-  m_Name: Button (5)
+  m_Name: SaturdayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1623,7 +1624,7 @@ GameObject:
   - component: {fileID: 6528147378471335193}
   - component: {fileID: 337298101588675825}
   m_Layer: 5
-  m_Name: Button
+  m_Name: MondayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1765,10 +1766,10 @@ RectTransform:
   m_Father: {fileID: 1002721517295616681}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 31.6, y: -13.799999}
+  m_SizeDelta: {x: 20.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3885601265031251542
 CanvasRenderer:
@@ -1944,10 +1945,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.4
-  m_fontSizeBase: 24
+  m_fontSize: 5.78
+  m_fontSizeBase: 5.78
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -2133,7 +2134,7 @@ GameObject:
   - component: {fileID: 2077241405886192991}
   - component: {fileID: 7772701195603038545}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: WednesdayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2790,7 +2791,7 @@ GameObject:
   - component: {fileID: 123146446592058758}
   - component: {fileID: 8684338148950004036}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: ThursdayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2990,10 +2991,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.4
-  m_fontSizeBase: 24
+  m_fontSize: 5.78
+  m_fontSizeBase: 5.78
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -3124,10 +3125,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.4
-  m_fontSizeBase: 24
+  m_fontSize: 5.78
+  m_fontSizeBase: 5.78
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -3437,7 +3438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4223826246973123002
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3497,7 +3498,7 @@ GameObject:
   - component: {fileID: 649061755271636643}
   - component: {fileID: 5328496992976872561}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: FridayBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3637,10 +3638,10 @@ RectTransform:
   m_Father: {fileID: 1002721517295616681}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10.35, y: -23}
+  m_SizeDelta: {x: 20.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6868338231484780487
 GameObject:
@@ -3658,7 +3659,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1002721517295616681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3741,10 +3742,10 @@ RectTransform:
   m_Father: {fileID: 1002721517295616681}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 10.35, y: -13.799999}
+  m_SizeDelta: {x: 20.7, y: 9.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1910702619043136510
 CanvasRenderer:
@@ -4109,7 +4110,7 @@ GameObject:
   - component: {fileID: 1962342780177242334}
   - component: {fileID: 364742837161481890}
   m_Layer: 5
-  m_Name: Rest
+  m_Name: RestBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4130,10 +4131,10 @@ RectTransform:
   m_Father: {fileID: 4223826246973123002}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25.81, y: -10.25}
-  m_SizeDelta: {x: 16.84, y: 20.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4433094477502198858
 CanvasRenderer:
@@ -4156,7 +4157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.82765245, g: 1, b: 0.6650944, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4485,7 +4486,7 @@ GameObject:
   - component: {fileID: 1335383051020827740}
   - component: {fileID: 3862703293164489700}
   m_Layer: 5
-  m_Name: BroadCast
+  m_Name: BroadCastBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4506,10 +4507,10 @@ RectTransform:
   m_Father: {fileID: 4223826246973123002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 8.42, y: -10.25}
-  m_SizeDelta: {x: 16.84, y: 20.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4037697227637227373
 CanvasRenderer:
@@ -4532,7 +4533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.2981043, g: 0.5668948, b: 0.8207547, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4606,7 +4607,7 @@ GameObject:
   - component: {fileID: 4458050943596803883}
   - component: {fileID: 998407243129322697}
   m_Layer: 5
-  m_Name: GoingOut
+  m_Name: GoOutBTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4627,10 +4628,10 @@ RectTransform:
   m_Father: {fileID: 4223826246973123002}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 43.199997, y: -10.25}
-  m_SizeDelta: {x: 16.84, y: 20.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6750472192107888819
 CanvasRenderer:
@@ -4653,7 +4654,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9339623, g: 0.5962905, b: 0.24230155, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

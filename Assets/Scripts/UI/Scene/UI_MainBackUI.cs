@@ -68,7 +68,6 @@ public class UI_MainBackUI : UI_Scene
     void ShowOrCloseCreateSchedulePopup()
     {
         TMP_Text CreateScheduleTMP = Get<Button>((int)Buttons.CreateScheduleBTN).GetComponentInChildren<TMP_Text>();
-
         if (isPopupOpen)
         {
             Managers.UI_Manager.ClosePopupUI();
