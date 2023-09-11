@@ -54,13 +54,13 @@ public class UI_MainBackUI : UI_Scene
         switch (textType)
         {
             case Texts.HealthTMP:
-                return "배고파";
+                return Managers.Data.GetConditionByString(true);
             case Texts.MentalTMP:
-                return "기분 좋음";
+                return Managers.Data.GetConditionByString(false);
             case Texts.MyMoneyTMP:
-                return "1000";
+                return Managers.Data._myPlayerData.nowGoldAmount.ToString();
             case Texts.MySubsTMP:
-                return "50000";
+                return Managers.Data._myPlayerData.nowSubCount.ToString();
             default:
                 return "";
         }

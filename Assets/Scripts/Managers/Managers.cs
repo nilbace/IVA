@@ -23,7 +23,7 @@ public class Managers : MonoBehaviour
     public static DataManager Data { get { return instance._data; } }
     public static GameManager Game { get { return instance._game; } }
     
-    void Start()
+    void Awake()
     {
         Init();
     }
@@ -48,6 +48,7 @@ public class Managers : MonoBehaviour
 
             s_instance._sound.Init();
             s_instance._pool.Init();
+            s_instance._data.Init();
         }
     }
 
