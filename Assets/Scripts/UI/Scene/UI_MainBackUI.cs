@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class UI_MainBackUI : UI_Scene
 {
-    public GameObject SchedulePopup;
-
     enum Texts
     {
         HealthTMP,  //현재 건강 상태
@@ -68,6 +66,6 @@ public class UI_MainBackUI : UI_Scene
 
     void ShowCreateSchedulePopup()
     {
-        SchedulePopup.SetActive(true);
+        Managers.UI_Manager.ShowPopupUI<UI_SchedulePopup>();
     }
 }
