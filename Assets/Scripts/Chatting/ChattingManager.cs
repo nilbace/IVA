@@ -43,7 +43,28 @@ public class ChattingManager : MonoBehaviour
 
         foreach(string line in lines)
         {
-            list.Add(line);
+            string templine = line.Substring(0, line.Length - 1);
+            int count = 0;
+            string modifiedLine = "";
+
+            foreach (char c in templine)
+            {
+                modifiedLine += c;
+
+                count++;
+                if (count == 10)
+                {
+                    modifiedLine += "\n";
+                    count = 0;
+                }
+            }
+
+            // 마지막 글자가 줄바꿈 문자인 경우 제거
+            if (modifiedLine.EndsWith("\n"))
+            {
+                modifiedLine = modifiedLine.Substring(0, modifiedLine.Length - 1);
+            }
+            list.Add(modifiedLine);
         }
     }
 
@@ -89,7 +110,7 @@ public class ChattingManager : MonoBehaviour
         Go.SetActive(true);
         Go.transform.localScale = Vector3.zero;
 
-        Go.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(namelist);
+        Go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(namelist);
         Go.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(messagelist);
 
         var tween = Go.transform.DOScale(targetScale, targetTime);
