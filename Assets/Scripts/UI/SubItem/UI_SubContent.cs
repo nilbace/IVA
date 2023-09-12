@@ -22,7 +22,6 @@ public class UI_SubContent : UI_Base
     public override void Init()
     {
         thisBTN = GetComponent<Button>();
-        thisBTN.onClick.AddListener(voidFunc);
         Bind<TMP_Text>(typeof(Texts));
     }
 
@@ -31,10 +30,12 @@ public class UI_SubContent : UI_Base
         thisBTN.onClick.RemoveAllListeners();
         thisSubSchedleData = scheduleData;
         GetText(0).text = thisSubSchedleData.KorName;
+        thisBTN.onClick.AddListener(SetSchedule);
     }
 
-    void voidFunc()
+    void SetSchedule()
     {
-
+        UI_SchedulePopup.instance.SetDaySchedule(thisSubSchedleData);
+        print(thisSubSchedleData.KorName + "세팅 완료");
     }
 }

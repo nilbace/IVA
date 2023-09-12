@@ -8,6 +8,10 @@ using UnityEngine.UI;
 public class UI_SchedulePopup : UI_Popup
     //스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
 {
+
+    public static UI_SchedulePopup instance; //ㅁ
+
+
     enum Buttons
     {
         MondayBTN,
@@ -43,6 +47,12 @@ public class UI_SchedulePopup : UI_Popup
     enum Images
     {
         ItemIcon,
+    }
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
     }
 
     private void Start()
@@ -94,7 +104,7 @@ public class UI_SchedulePopup : UI_Popup
     }
 
     SevenDays _nowSelectedDay = SevenDays.Monday;
-    ScheduleData[] _SevenDayScheduleDatas = new ScheduleData[7];
+    public ScheduleData[] _SevenDayScheduleDatas = new ScheduleData[7];
     
     void ClickDay(int i)
     {
@@ -134,6 +144,7 @@ public class UI_SchedulePopup : UI_Popup
 
     #region BroadCast
     //방송 정보에 대한 스크립트
+    [System.Serializable]
     [CreateAssetMenu(fileName = "ScheduleData", menuName = "Scriptable/ScheduleData", order = int.MaxValue)]
     public class ScheduleData : ScriptableObject
     {
@@ -276,13 +287,18 @@ public class UI_SchedulePopup : UI_Popup
         return i + (4 * _nowpage);
     }
 
+    public void SetDaySchedule(ScheduleData data)
+    {
+        _SevenDayScheduleDatas[(int)_nowSelectedDay] = data;
+        ChangeNowSelectDayToNearestAndCheckFull();
+    }
     #endregion
 
     void ChangeNowSelectDayToNearestAndCheckFull()
     {
         for(int i = 0;i<7;i++)
         {
-            if(_SevenDayScheduleDatas[i].scheduleType == ScheduleType.Null)
+            if(_SevenDayScheduleDatas[i] == null)
             {
                 _nowSelectedDay = (SevenDays)i;
                 break;
@@ -292,6 +308,10 @@ public class UI_SchedulePopup : UI_Popup
                 StartCoroutine(StartSchedule());
             }
         }
+
+        RenewalDayBTNColor();
+        GetGameObject((int)GameObjects.Contents3).SetActive(true);
+        GetGameObject((int)GameObjects.SubContents4).SetActive(false);
     }
 
     IEnumerator StartSchedule()
