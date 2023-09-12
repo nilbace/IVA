@@ -9,7 +9,7 @@ public class UI_SchedulePopup : UI_Popup
     //스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
 {
 
-    public static UI_SchedulePopup instance; //ㅁ
+    public static UI_SchedulePopup instance; 
 
 
     enum Buttons
@@ -104,7 +104,7 @@ public class UI_SchedulePopup : UI_Popup
     }
 
     SevenDays _nowSelectedDay = SevenDays.Monday;
-    public ScheduleData[] _SevenDayScheduleDatas = new ScheduleData[7];
+    ScheduleData[] _SevenDayScheduleDatas = new ScheduleData[7];
     
     void ClickDay(int i)
     {
