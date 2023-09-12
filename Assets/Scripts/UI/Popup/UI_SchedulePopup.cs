@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_SchedulePopup : UI_Popup
+    //스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
 {
     enum Buttons
     {
@@ -19,7 +20,11 @@ public class UI_SchedulePopup : UI_Popup
 
         BroadCastBTN,
         RestBTN,
-        GoOutBTN
+        GoOutBTN,
+
+        LeftPageBTN,
+        RightPageBTN,
+
     }
     enum Texts
     {
@@ -31,7 +36,8 @@ public class UI_SchedulePopup : UI_Popup
     {
         Days7,
         Contents3,
-        SubContents4
+        SubContents4,
+        Sub0, Sub1, Sub2, Sub3, 
     }
 
     enum Images
@@ -51,7 +57,9 @@ public class UI_SchedulePopup : UI_Popup
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
 
-        for(int i = 0; i<7;i++)
+        GetGameObject((int)GameObjects.SubContents4).SetActive(false);
+
+        for (int i = 0; i<7;i++)
             //7일들
         {
             int inttemp = i;
@@ -59,9 +67,12 @@ public class UI_SchedulePopup : UI_Popup
             temp.onClick.AddListener( () => ClickDay(inttemp));
         }
 
-        GetButton((int)Buttons.BroadCastBTN).onClick.AddListener(TempBroadCastBTN);
+        GetButton((int)Buttons.BroadCastBTN).onClick.AddListener(BroadCastBTN);
         GetButton((int)Buttons.RestBTN).onClick.AddListener(TempRestBTN);
         GetButton((int)Buttons.GoOutBTN).onClick.AddListener(TempGoOutBTN);
+
+        GetButton((int)Buttons.LeftPageBTN).onClick.AddListener(GoLeftPage);
+        GetButton((int)Buttons.RightPageBTN).onClick.AddListener(GoRightPage);
 
         ClickDay(0); //기본 월요일 선택
     }
@@ -83,7 +94,7 @@ public class UI_SchedulePopup : UI_Popup
     }
 
     SevenDays _nowSelectedDay = SevenDays.Monday;
-    ScheduleType[] _SevenDayScheduleState = new ScheduleType[7];
+    ScheduleData[] _SevenDayScheduleDatas = new ScheduleData[7];
     
     void ClickDay(int i)
     {
@@ -94,7 +105,7 @@ public class UI_SchedulePopup : UI_Popup
     public Color Orange;
 
     void RenewalDayBTNColor()
-        //색상 지정용 코드
+        //색상 지정용 함수
     {
         for(int i = 0; i<7;i++)
         {
@@ -102,15 +113,15 @@ public class UI_SchedulePopup : UI_Popup
             {
                 GetButton(i).GetComponent<Image>().color = Color.red;
             }
-            else if(_SevenDayScheduleState[i] == ScheduleType.Null)
+            else if(_SevenDayScheduleDatas[i] == null)
             {
                 GetButton(i).GetComponent<Image>().color = Color.white;
             }
-            else if(_SevenDayScheduleState[i] == ScheduleType.BroadCast)
+            else if(_SevenDayScheduleDatas[i].scheduleType == ScheduleType.BroadCast)
             {
                 GetButton(i).GetComponent<Image>().color = Color.blue;
             }
-            else if(_SevenDayScheduleState[i] == ScheduleType.Rest)
+            else if(_SevenDayScheduleDatas[i].scheduleType == ScheduleType.Rest)
             {
                 GetButton(i).GetComponent<Image>().color = Color.green;
             }
@@ -122,52 +133,181 @@ public class UI_SchedulePopup : UI_Popup
     }
 
     #region BroadCast
-    void TempBroadCastBTN()
+    //방송 정보에 대한 스크립트
+    [CreateAssetMenu(fileName = "ScheduleData", menuName = "Scriptable/ScheduleData", order = int.MaxValue)]
+    public class ScheduleData : ScriptableObject
+    {
+        public string KorName;
+        public ScheduleType scheduleType;
+        public BroadCastType broadcastType;
+        public RestType restType;
+        public GoOutType goOutType;
+        public string infotext;
+    }
+
+    public enum BroadCastType
+    {
+        Game, Sing, Chat, Horror, Cook, GameChallenge, NewClothe, MaxCount
+    }
+
+    public enum RestType
+    { 
+        home, chicken, MaxCount
+    }
+
+    public enum GoOutType
+    {
+        songAcademy, GameAcademy, MaxCount
+    }
+
+    List<ScheduleData> nowSelectScheduleTypeList = new List<ScheduleData>();
+
+    void BroadCastBTN()
     {
         GetGameObject((int)GameObjects.Contents3).SetActive(false);
         GetGameObject((int)GameObjects.SubContents4).SetActive(true);
+        ChooseScheduleTypeAndFillList(ScheduleType.BroadCast);
 
-        _SevenDayScheduleState[(int)_nowSelectedDay] = ScheduleType.BroadCast;
-        ChangeNowSelectDayToNearestAndCheckFull();
-        RenewalDayBTNColor();
+        //_SevenDayScheduleState[(int)_nowSelectedDay] = ScheduleType.BroadCast;
+        //ChangeNowSelectDayToNearestAndCheckFull();
+        //RenewalDayBTNColor();
     }
-
-    public enum BroadCastList
-    {
-        Game, Sing, Chat, Horror, Cook, GameChallenge, NewClothe, 
-    }
-
-
-    #endregion
-
     void TempRestBTN()
     {
-        _SevenDayScheduleState[(int)_nowSelectedDay] = ScheduleType.Rest;
         ChangeNowSelectDayToNearestAndCheckFull();
         RenewalDayBTNColor();
     }
 
     void TempGoOutBTN()
     {
-        _SevenDayScheduleState[(int)_nowSelectedDay] = ScheduleType.GoOut;
         ChangeNowSelectDayToNearestAndCheckFull();
         RenewalDayBTNColor();
     }
+
+    void ChooseScheduleTypeAndFillList(ScheduleType type)
+    {
+        nowSelectScheduleTypeList.Clear();
+        switch (type)
+        {
+            case ScheduleType.BroadCast:
+                string path = "ScheduleDatas/BroadCast/";
+                for (int i = 0; i < (int)BroadCastType.MaxCount; i++)
+                {
+                    string temppath = path + Enum.GetName(typeof(BroadCastType), (BroadCastType)i);
+                    ScheduleData tempdata = Managers.Resource.Load<ScheduleData>(temppath);
+                    nowSelectScheduleTypeList.Add(tempdata);
+                }
+                _nowpage = 0;
+                Renewal4SubContentsBTN();
+                break;
+
+            case ScheduleType.Rest:
+
+                break;
+
+            case ScheduleType.GoOut:
+                break;
+        }
+
+    }
+
+    int _nowpage = 0; int _MaxPage; int subcontentcount = 4;
+
+
+    void Renewal4SubContentsBTN()
+    {
+        _MaxPage = nowSelectScheduleTypeList.Count / 4;
+
+        if(_nowpage == 0)
+        {
+            GetButton((int)Buttons.LeftPageBTN).interactable = false;
+        }
+        else
+        {
+            GetButton((int)Buttons.LeftPageBTN).interactable = true;
+        }
+
+        if(_nowpage == _MaxPage)
+        {
+            GetButton((int)Buttons.RightPageBTN).interactable = false;
+        }
+        else
+        {
+            GetButton((int)Buttons.RightPageBTN).interactable = true;
+        }
+
+        for (int i = 0;i<4;i++)
+        {
+            Debug.Log($"i : {i}, index : {nowIndex(i)}");
+            if (isIndexExist(nowIndex(i)))
+            {
+                GetGameObject(3 + i).
+                    GetOrAddComponent<UI_SubContent>().SetInfo(nowSelectScheduleTypeList[nowIndex(i)]);
+                GetGameObject(3 + i).GetComponent<Button>().interactable = true;
+            }
+            else
+                GetGameObject(3 + i).GetComponent<Button>().interactable = false;
+        }
+
+    }
+
+    void GoLeftPage()
+    {
+        _nowpage--;
+        Renewal4SubContentsBTN();
+    }
+
+    void GoRightPage()
+    {
+        _nowpage++;
+        Renewal4SubContentsBTN();
+    }
+
+    bool isIndexExist(int i)
+    {
+        int temp = nowIndex(i);
+        if (nowSelectScheduleTypeList.Count-1 >= temp)
+            return true;
+        else
+            return false;
+    }
+
+    int nowIndex(int i)
+    {
+        return i + (4 * _nowpage);
+    }
+
+    #endregion
 
     void ChangeNowSelectDayToNearestAndCheckFull()
     {
         for(int i = 0;i<7;i++)
         {
-            if(_SevenDayScheduleState[i] == ScheduleType.Null)
+            if(_SevenDayScheduleDatas[i].scheduleType == ScheduleType.Null)
             {
                 _nowSelectedDay = (SevenDays)i;
                 break;
             }
             if(i==6)
             {
-                //선택 종료시 작동할 코드
+                StartCoroutine(StartSchedule());
             }
         }
+    }
+
+    IEnumerator StartSchedule()
+    {
+        for(int i =0; i<7;i ++)
+        {
+            Debug.Log("스케쥴 시작");
+            yield return new WaitForSeconds(3f);
+            
+            Debug.Log("Action 실행");
+            Debug.Log("스케쥴 종료");
+        }
+        Debug.Log("결산 팝업창");
+        Debug.Log("랜덤 이벤트 발생");
+        Debug.Log("컷씬 발생");
     }
 
     #endregion

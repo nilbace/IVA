@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Cook
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SchedulePopup/ScheduleData
+  KorName: "\uC694\uB9AC \uBC29\uC1A1"
+  scheduleType: 1
+  broadcastType: 4
+  restType: 0
+  goOutType: 0
+  infotext: "\uCE74\uBA54\uB77C \uD544\uD130\uB97C \uB044\uACE0 \uC190\uB9CC \uBCF4\uC5EC\uC8FC\uBA70
+    \uC694\uB9AC\uD569\uB2C8\uB2E4."

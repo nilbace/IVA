@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Sing
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SchedulePopup/ScheduleData
+  KorName: "\uB178\uB798 \uBC29\uC1A1"
+  scheduleType: 1
+  broadcastType: 1
+  restType: 0
+  goOutType: 0
+  infotext: "\uC5D8\uB77C\uAC00 \uD479 \uBE60\uC9C4 \uAD6C\uC218\uD55C \uD2B8\uB85C\uD2B8\uB97C
+    \uBD80\uB985\uB2C8\uB2E4. "

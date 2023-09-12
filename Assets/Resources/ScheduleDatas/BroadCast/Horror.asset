@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Horror
+  m_EditorClassIdentifier: Assembly-CSharp::UI_SchedulePopup/ScheduleData
+  KorName: "\uACF5\uD3EC\uAC8C\uC784"
+  scheduleType: 1
+  broadcastType: 3
+  restType: 0
+  goOutType: 0
+  infotext: "\uC5D8\uB77C\uAC00 \uC815\uB9D0 \uD558\uAE30 \uC2EB\uC5B4\uD569\uB2C8\uB2E4.
+    \uB300\uC2E0 \uC2DC\uCCAD\uC790 \uBC18\uC751\uC740 \uC5C4\uCCAD \uC88B\uC2B5\uB2C8\uB2E4."
