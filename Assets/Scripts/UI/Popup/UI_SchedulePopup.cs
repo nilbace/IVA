@@ -238,8 +238,7 @@ public class UI_SchedulePopup : UI_Popup
 
         for (int i = 0;i<4;i++)
         {
-            Debug.Log($"i : {i}, index : {nowIndex(i)}");
-            if (isIndexExist(nowIndex(i)))
+            if (isIndexExist(i))
             {
                 GetGameObject(3 + i).
                     GetOrAddComponent<UI_SubContent>().SetInfo(nowSelectScheduleTypeList[nowIndex(i)]);
@@ -265,7 +264,7 @@ public class UI_SchedulePopup : UI_Popup
 
     bool isIndexExist(int i)
     {
-        int temp = nowIndex(i);
+        int temp = i + (4 * _nowpage);
         if (nowSelectScheduleTypeList.Count-1 >= temp)
             return true;
         else
