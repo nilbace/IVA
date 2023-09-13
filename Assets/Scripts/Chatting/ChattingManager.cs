@@ -7,10 +7,17 @@ using static UI_SchedulePopup;
 
 public class ChattingManager : MonoBehaviour
 {
+    #region URL&StringLists
+
     const string NameURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=A3:A";
-    const string ChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=B3:B";
-    List<string> GameNameList = new List<string>();
+    List<string> ViewersNameList = new List<string>();
+
+    const string GaneChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=B3:B";
     List<string> GameChatList = new List<string>();
+
+    #endregion
+
+
     List<GameObject> ChatGOs = new List<GameObject>();
     public GameObject ClearChatGO;
 
@@ -18,27 +25,26 @@ public class ChattingManager : MonoBehaviour
 
     void Start()
     {
+        //배열에 집어넣고 비활성화
         int childCount = gameObject.transform.childCount;
         for (int i = 0; i < childCount; i++)
         {
             Transform childTransform = gameObject.transform.GetChild(i);
             GameObject childObject = childTransform.gameObject;
             ChatGOs.Add(childObject);
+            childObject.SetActive(false);
         }
-        foreach (GameObject go in ChatGOs)
-        {
-            go.SetActive(false);
-        }
-        StartCoroutine(WaitUntilData());
+         
+        StartCoroutine(RequestListDatasFromSheet());
     }
 
 
 
-    IEnumerator WaitUntilData()
+    IEnumerator RequestListDatasFromSheet()
     {
         //비동기 방식으로 서버에서 데이터를 읽어옴
-        Coroutine chatCoroutine = StartCoroutine(ReadData(ChatURL, GameChatList));
-        Coroutine nameCoroutine = StartCoroutine(ReadData(NameURL, GameNameList));
+        Coroutine chatCoroutine = StartCoroutine(RequestAndSetDatas(GaneChatURL, GameChatList));
+        Coroutine nameCoroutine = StartCoroutine(RequestAndSetDatas(NameURL, ViewersNameList));
 
         //두 개의 코루틴이 모두 완료될 때까지 기다림
         yield return chatCoroutine;
@@ -48,7 +54,7 @@ public class ChattingManager : MonoBehaviour
         StartGenerateChattingByType(BroadCastType.Game);
     }
 
-    IEnumerator ReadData(string www, List<string> list)
+    IEnumerator RequestAndSetDatas(string www, List<string> list)
     {
         UnityWebRequest wwww = UnityWebRequest.Get(www);
         yield return wwww.SendWebRequest();
@@ -67,12 +73,15 @@ public class ChattingManager : MonoBehaviour
                 modifiedLine += c;
 
                 count++;
+
+                //9글자 이상일때 띄어쓰기거나
                 if (count >= 9 && c == ' ')
                 {
                     modifiedLine = modifiedLine.Substring(0, modifiedLine.Length - 1);
                     modifiedLine += "\n";
                     count = 0;
                 }
+                //11글자가 넘어가면 강제로 줄바꿈
                 else if(count > 11)
                 {
                     modifiedLine += "\n";
@@ -89,21 +98,27 @@ public class ChattingManager : MonoBehaviour
         }
     }
 
+    //방송 타입을 받아서 방송 시작함
     public void StartGenerateChattingByType(BroadCastType broadCastType)
     {
         switch (broadCastType)
         {
             case BroadCastType.Game:
-                StartCoroutine(StartGenerateChatting(GameNameList, GameChatList));
+                StartCoroutine(StartGenerateChatting(GameChatList));
                 break;
         }
 
     }
 
-    [SerializeField] float minTime;
-    [SerializeField] float maxTime;
-    [SerializeField] float ChatSpace;
-    IEnumerator StartGenerateChatting(List<string> namelist, List<string> messagelist)
+    //채팅 나오는 시간 간격
+    [SerializeField] float minChatDelayTime;
+    [SerializeField] float maxChatDelayTime;
+    //채팅 사이 간격
+    [SerializeField] float SpaceBetweenChats;
+
+
+    //채팅 시작 구현
+    IEnumerator StartGenerateChatting(List<string> messagelist)
     {
         int index = 0;
         
@@ -113,11 +128,10 @@ public class ChattingManager : MonoBehaviour
             string tempMessage = GetRandomStringFromList(messagelist);
             ClearChatGO.GetComponent<TMPro.TMP_Text>().text = tempMessage;
             yield return new WaitForEndOfFrame();
-
-            int lastindex = (index + ChatGOs.Count - 1) % ChatGOs.Count;
-            float newYoffset = ClearChatGO.GetComponent<RectTransform>().sizeDelta.y + ChatSpace;
-            //+ ChatGOs[lastindex].transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.y/2f;
+            float newYoffset = ClearChatGO.GetComponent<RectTransform>().sizeDelta.y + SpaceBetweenChats;
             newYoffset *= _chatScale;
+
+            //맨 위에놈 끔
             ChatGOs[(index + ChatGOs.Count + 1) % ChatGOs.Count].SetActive(false);
 
             //나머지 전부 위로 올림
@@ -133,33 +147,42 @@ public class ChattingManager : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
 
             //새 메시지 밑에 생성
-            yield return StartCoroutine(MakeRandomChat(index, namelist, tempMessage));
+            yield return StartCoroutine(MakeRandomChat(index, tempMessage));
 
             index++;
             if (index == ChatGOs.Count) index = 0;
 
-            float temp = Random.Range(minTime, maxTime);
+            float temp = Random.Range(minChatDelayTime, maxChatDelayTime);
             yield return new WaitForSeconds(temp);
         }
     }
 
-    [SerializeField] float targetTime;
-    [SerializeField] float Yoffset;
+    //새 채팅이 커지는 시간
+    [SerializeField] float TimeForChatGetBigger;
 
-    IEnumerator MakeRandomChat(int index, List<string> namelist, string message)
+
+    [SerializeField] float ChatGenerateYPoz;
+
+    /// <summary>
+    /// qwer
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    IEnumerator MakeRandomChat(int index, string message)
     {
         Vector3 targetScale = Vector3.one * _chatScale;
         GameObject Go = ChatGOs[index];
 
         Go.SetActive(true);
         Go.transform.localScale = Vector3.zero;
-        Go.GetComponent<RectTransform>().anchoredPosition = new Vector3(-46f, ClearChatGO.transform.GetComponent<RectTransform>().sizeDelta.y/2f* _chatScale + Yoffset, 0);
+        Go.GetComponent<RectTransform>().anchoredPosition = new Vector3(-46f, ClearChatGO.transform.GetComponent<RectTransform>().sizeDelta.y/2f* _chatScale + ChatGenerateYPoz, 0);
 
-        Go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(namelist);
+        Go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(ViewersNameList);
         Go.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = message;
         ClearChatGO.GetComponent<TMPro.TMP_Text>().text = Go.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text;
 
-        var tween = Go.transform.DOScale(targetScale, targetTime);
+        var tween = Go.transform.DOScale(targetScale, TimeForChatGetBigger);
         yield return tween.WaitForCompletion();
     }
 
