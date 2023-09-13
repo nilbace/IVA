@@ -14,9 +14,10 @@ public class ChattingManager : MonoBehaviour
     List<GameObject> ChatGOs = new List<GameObject>();
     public GameObject ClearChatGO;
 
+    [SerializeField] float _chatScale;
+
     void Start()
     {
-
         int childCount = gameObject.transform.childCount;
         for (int i = 0; i < childCount; i++)
         {
@@ -44,7 +45,7 @@ public class ChattingManager : MonoBehaviour
         yield return nameCoroutine;
 
         //채팅 생성 시작
-        StartGenerateChatting(BroadCastType.Game);
+        StartGenerateChattingByType(BroadCastType.Game);
     }
 
     IEnumerator ReadData(string www, List<string> list)
@@ -66,7 +67,13 @@ public class ChattingManager : MonoBehaviour
                 modifiedLine += c;
 
                 count++;
-                if (count == 10)
+                if (count >= 9 && c == ' ')
+                {
+                    modifiedLine = modifiedLine.Substring(0, modifiedLine.Length - 1);
+                    modifiedLine += "\n";
+                    count = 0;
+                }
+                else if(count > 11)
                 {
                     modifiedLine += "\n";
                     count = 0;
@@ -82,7 +89,7 @@ public class ChattingManager : MonoBehaviour
         }
     }
 
-    public void StartGenerateChatting(BroadCastType broadCastType)
+    public void StartGenerateChattingByType(BroadCastType broadCastType)
     {
         switch (broadCastType)
         {
@@ -95,29 +102,39 @@ public class ChattingManager : MonoBehaviour
 
     [SerializeField] float minTime;
     [SerializeField] float maxTime;
+    [SerializeField] float ChatSpace;
     IEnumerator StartGenerateChatting(List<string> namelist, List<string> messagelist)
     {
-        
-
         int index = 0;
         
         while(true)
         {
-            foreach(GameObject go in ChatGOs)
+            //새 창 정보 세팅(사이즈 조절용)
+            string tempMessage = GetRandomStringFromList(messagelist);
+            ClearChatGO.GetComponent<TMPro.TMP_Text>().text = tempMessage;
+            yield return new WaitForEndOfFrame();
+
+            int lastindex = (index + ChatGOs.Count - 1) % ChatGOs.Count;
+            float newYoffset = ClearChatGO.GetComponent<RectTransform>().sizeDelta.y + ChatSpace;
+            //+ ChatGOs[lastindex].transform.GetChild(0).GetComponent<RectTransform>().sizeDelta.y/2f;
+            newYoffset *= _chatScale;
+            ChatGOs[(index + ChatGOs.Count + 1) % ChatGOs.Count].SetActive(false);
+
+            //나머지 전부 위로 올림
+            foreach (GameObject go in ChatGOs)
             {
-                if(go.activeSelf)
+                if (go.activeSelf)
                 {
                     var rectTransform = go.GetComponent<RectTransform>();
-                    var targetPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + ClearChatGO.GetComponent<RectTransform>().sizeDelta.y);
-                    var tween = rectTransform.DOAnchorPos(targetPosition, 0.3f);
+                    var targetPosition = new Vector2(rectTransform.anchoredPosition.x, rectTransform.anchoredPosition.y + newYoffset);
+                    rectTransform.DOAnchorPos(targetPosition, 0.3f);
                 }
             }
+            yield return new WaitForSeconds(0.3f);
 
-            yield return StartCoroutine(MakeRandomChat(index, namelist, messagelist));
-            
+            //새 메시지 밑에 생성
+            yield return StartCoroutine(MakeRandomChat(index, namelist, tempMessage));
 
-            
-            ChatGOs[(index + ChatGOs.Count + 1) % ChatGOs.Count].SetActive(false);
             index++;
             if (index == ChatGOs.Count) index = 0;
 
@@ -129,17 +146,17 @@ public class ChattingManager : MonoBehaviour
     [SerializeField] float targetTime;
     [SerializeField] float Yoffset;
 
-    IEnumerator MakeRandomChat(int index, List<string> namelist, List<string> messagelist)
+    IEnumerator MakeRandomChat(int index, List<string> namelist, string message)
     {
-        Vector3 targetScale = Vector3.one * 0.52f;
+        Vector3 targetScale = Vector3.one * _chatScale;
         GameObject Go = ChatGOs[index];
 
         Go.SetActive(true);
         Go.transform.localScale = Vector3.zero;
-        Go.GetComponent<RectTransform>().anchoredPosition = new Vector3(-35f, ClearChatGO.GetComponent<RectTransform>().sizeDelta.y/2f + Yoffset, 0);
+        Go.GetComponent<RectTransform>().anchoredPosition = new Vector3(-46f, ClearChatGO.transform.GetComponent<RectTransform>().sizeDelta.y/2f* _chatScale + Yoffset, 0);
 
         Go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(namelist);
-        Go.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = GetRandomStringFromList(messagelist);
+        Go.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = message;
         ClearChatGO.GetComponent<TMPro.TMP_Text>().text = Go.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text;
 
         var tween = Go.transform.DOScale(targetScale, targetTime);
