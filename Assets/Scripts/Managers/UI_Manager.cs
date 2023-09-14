@@ -26,9 +26,9 @@ public class UI_Manager
         canvas.overrideSorting = true;
 
         if(sort)
-            canvas.sortingOrder = _order++;
+            canvas.sortingOrder =  5 +_order++;//
         else
-            canvas.sortingOrder = 0;
+            canvas.sortingOrder = -2;
     }
 
     public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UI_Base

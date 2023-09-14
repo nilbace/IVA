@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using DG.Tweening;
 using static UI_SchedulePopup;
 
-public class ChattingManager : MonoBehaviour
+public class ChattingManager : MonoBehaviour//
 {
     #region URL&StringLists
 

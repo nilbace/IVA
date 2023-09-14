@@ -179,9 +179,6 @@ public class UI_SchedulePopup : UI_Popup
         GetGameObject((int)GameObjects.SubContents4).SetActive(true);
         ChooseScheduleTypeAndFillList(ScheduleType.BroadCast);
 
-        //_SevenDayScheduleState[(int)_nowSelectedDay] = ScheduleType.BroadCast;
-        //ChangeNowSelectDayToNearestAndCheckFull();
-        //RenewalDayBTNColor();
     }
     void TempRestBTN()
     {
@@ -208,8 +205,7 @@ public class UI_SchedulePopup : UI_Popup
                     ScheduleData tempdata = Managers.Resource.Load<ScheduleData>(temppath);
                     nowSelectScheduleTypeList.Add(tempdata);
                 }
-                _nowpage = 0;
-                Renewal4SubContentsBTN();
+                
                 break;
 
             case ScheduleType.Rest:
@@ -219,7 +215,8 @@ public class UI_SchedulePopup : UI_Popup
             case ScheduleType.GoOut:
                 break;
         }
-
+        _nowpage = 0;
+        Renewal4SubContentsBTN();
     }
 
     int _nowpage = 0; int _MaxPage; int subcontentcount = 4;
