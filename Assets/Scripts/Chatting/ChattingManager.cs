@@ -37,7 +37,7 @@ public class ChattingManager : MonoBehaviour//
          
         StartCoroutine(RequestListDatasFromSheet());
     }
-
+    //
 
 
     IEnumerator RequestListDatasFromSheet()
