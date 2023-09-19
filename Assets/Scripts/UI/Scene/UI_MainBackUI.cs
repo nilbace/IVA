@@ -37,7 +37,7 @@ public class UI_MainBackUI : UI_Scene
         InitTextComponents();
     }
 
-    private void InitTextComponents()
+    public void InitTextComponents()
         //모든 Text받아와서 글자 설정하기
     {
         foreach (Texts textType in System.Enum.GetValues(typeof(Texts)))

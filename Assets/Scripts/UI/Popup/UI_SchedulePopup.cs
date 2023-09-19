@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static DataManager;
 
 public class UI_SchedulePopup : UI_Popup
     //스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
@@ -312,44 +313,43 @@ public class UI_SchedulePopup : UI_Popup
 
     IEnumerator StartSchedule()
     {
+        int beforeSubsAmount = Managers.Data._myPlayerData.nowSubCount;
         for (int i =0; i<7; i++)
         {
-            Debug.Log("Action 실행");
+            CarryOutOneDayWork(_SevenDayScheduleDatas[0].broadcastType);
             Debug.Log("스케쥴 종료");
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1f);
         }
-        Debug.Log("결산 팝업창");
-        Debug.Log("랜덤 이벤트 발생");
-        Debug.Log("컷씬 발생");
+        int aftersubsAmount = Managers.Data._myPlayerData.nowSubCount;
+        Debug.Log($"구독자 변화량 : {aftersubsAmount - beforeSubsAmount}");
+        Managers.Data._myPlayerData.StartWeek++;
+        Managers.Data.SaveData();
+        ClosePopupUI();
     }
 
     void CarryOutOneDayWork(BroadCastType broadCastType)
     {
-        switch (broadCastType)
-        {
-            case BroadCastType.Game:
-                break;
-            case BroadCastType.Sing:
-                break;
-            case BroadCastType.Chat:
-                break;
-            case BroadCastType.Horror:
-                break;
-            case BroadCastType.Cook:
-                break;
-            case BroadCastType.GameChallenge:
-                break;
-            case BroadCastType.NewClothe:
-                break;
-            case BroadCastType.MaxCount:
-                break;
-            default:
-                break;
-        }
+        OneDayDatas tempdatas =  Managers.Data.GetOneDayDataByName(broadCastType);
+        float nowWeekmag = Managers.Data.GetNowWeekBonusMag();
 
-        #endregion
+        int newSubs = CalculateSubAfterDay(Managers.Data._myPlayerData.nowSubCount,
+            tempdatas.FixSubIncrease, tempdatas.PerSubIncrease, nowWeekmag);
 
+        Managers.Data._myPlayerData.nowSubCount += newSubs;
+        Debug.Log($"구독자 증가량 : {newSubs}");
 
-
+        Managers.Data._myPlayerData.nowHealthStatus += tempdatas.HealthMinAmount;
+        Managers.Data._myPlayerData.nowMentalStatus += tempdatas.MentalMinAmount;
+        Debug.Log($"체력 감소량 : {tempdatas.HealthMinAmount}");
+        Debug.Log($"정신력 감소량 : {tempdatas.MentalMinAmount}");
     }
+
+    int CalculateSubAfterDay(int now, int fix, int per, float bonus)
+    {
+        float temp = (now + fix) * ((float)(100 + per) / 100f) * bonus;
+        int result = Mathf.CeilToInt(temp);
+        return result - now;
+    }
+
+    #endregion
 }

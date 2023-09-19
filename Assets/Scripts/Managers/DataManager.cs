@@ -62,7 +62,7 @@ public class DataManager
         _myPlayerData = JsonUtility.FromJson<PlayerData>(jsonData);
     }
 
-    void SaveData()
+    public void SaveData()
     {
         string path;
         if (Application.platform == RuntimePlatform.Android)
@@ -95,6 +95,12 @@ public class DataManager
 
 
     float[] weekBounsMagnification = new float[5];
+    public float GetNowWeekBonusMag()
+    {
+        int temp = _myPlayerData.StartWeek;
+        int temp2 = (temp-1) / 4;
+        return weekBounsMagnification[temp2];
+    }
     public class OneDayDatas
     {
         public string Name;
@@ -117,6 +123,44 @@ public class DataManager
     OneDayDatas[] oneDayDatasArray = new OneDayDatas[(int)BroadCastType.MaxCount];
     //추후 더해줄 예정
     //이름에 따라 인덱스 찾는 함수 추가 예정
+    public OneDayDatas GetOneDayDataByName(BroadCastType broadCastType)
+    {
+        switch (broadCastType)
+        {
+            case BroadCastType.Game:
+                return oneDayDatasArray[0];
+            case BroadCastType.Sing:
+                return oneDayDatasArray[1];
+            case BroadCastType.Chat:
+                return oneDayDatasArray[2];
+            case BroadCastType.Horror:
+                return oneDayDatasArray[3];
+            case BroadCastType.Cook:
+                return oneDayDatasArray[4];
+            case BroadCastType.GameChallenge:
+                return oneDayDatasArray[5];
+            case BroadCastType.NewClothe:
+                return oneDayDatasArray[6];
+        }
+        return null;
+    }
+
+    public OneDayDatas GetOneDayDataByName(RestType restType)
+    {
+        switch ((restType)
+)
+        {
+            case RestType.home:
+                break;
+            case RestType.chicken:
+                break;
+            case RestType.MaxCount:
+                break;
+            default:
+                break;
+        }
+        return null;
+    }
 
     public IEnumerator RequestAndSetDatas(string www)
     {
@@ -151,7 +195,6 @@ public class DataManager
             temp.IncomeMagnificant = (int)tempfloatList.Dequeue();
             oneDayDatasArray[i] = temp;
         }
-
     }
 }
 public enum EllaCondition
@@ -165,7 +208,9 @@ public class PlayerData
     public int nowSubCount;
     public int nowGoldAmount;
     public EllaCondition HealthCondition;
+    public int nowHealthStatus;
     public EllaCondition MentalCondition;
+    public int nowMentalStatus;
     public int GamimgStat;
     public int SingingStat;
     public int ChattingStat;
@@ -179,7 +224,9 @@ public class PlayerData
         nowSubCount = 0;
         nowGoldAmount = 0;
         HealthCondition = EllaCondition.Healthy;
+        nowHealthStatus = 100;
         MentalCondition = EllaCondition.Healthy;
+        nowMentalStatus = 100;
         GamimgStat = 0;
         SingingStat = 0;
         HealthyStat = 0;
