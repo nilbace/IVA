@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
+using static UI_SchedulePopup;
 
 public class DataManager
     //정보 저장 및 가공 담당
@@ -90,6 +92,67 @@ public class DataManager
     }
 
     #endregion
+
+
+    float[] weekBounsMagnification = new float[5];
+    public class OneDayDatas
+    {
+        public string Name;
+        public int FixSubIncrease;
+        public int PerSubIncrease;
+        public int HealthMinAmount;
+        public int MentalMinAmount;
+        public int IncomeMagnificant;
+
+        public OneDayDatas(string name = "", int fixSubIncrease=0, int perSubIncrease=0, int healthMinAmount=0, int mentalMinAmount=0, int incomeMagnificant=0)
+        {
+            Name = name;
+            FixSubIncrease = fixSubIncrease;
+            PerSubIncrease = perSubIncrease;
+            HealthMinAmount = healthMinAmount;
+            MentalMinAmount = mentalMinAmount;
+            IncomeMagnificant = incomeMagnificant;
+        }
+    }
+    OneDayDatas[] oneDayDatasArray = new OneDayDatas[(int)BroadCastType.MaxCount];
+    //추후 더해줄 예정
+    //이름에 따라 인덱스 찾는 함수 추가 예정
+
+    public IEnumerator RequestAndSetDatas(string www)
+    {
+        UnityWebRequest wwww = UnityWebRequest.Get(www);
+        yield return wwww.SendWebRequest();
+
+        string data = wwww.downloadHandler.text;
+        string[] lines = data.Substring(0, data.Length - 1).Split('\n');
+
+        Queue<float> tempfloatList = new Queue<float>();
+
+        foreach (string line in lines)
+        {
+            string templine = line.Substring(0, line.Length - 1);
+            float temp = float.Parse(templine);
+            tempfloatList.Enqueue(temp);
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            weekBounsMagnification[i] = tempfloatList.Dequeue();
+        }
+
+        for(int i = 0;i<(int)BroadCastType.MaxCount; i++)
+        {
+            OneDayDatas temp = new OneDayDatas();
+            temp.Name = Enum.GetName(typeof(BroadCastType), i);
+            temp.FixSubIncrease = (int)tempfloatList.Dequeue();
+            temp.PerSubIncrease = (int)tempfloatList.Dequeue();
+            temp.HealthMinAmount = (int)tempfloatList.Dequeue();
+            temp.MentalMinAmount = (int)tempfloatList.Dequeue();
+            temp.IncomeMagnificant = (int)tempfloatList.Dequeue();
+            oneDayDatasArray[i] = temp;
+        }
+
+    }
 }
 public enum EllaCondition
 {
@@ -123,4 +186,11 @@ public class PlayerData
         MentalStat = 0;
         LuckStat = 0;
     }
+
+    
+
+    
+
 }
+
+

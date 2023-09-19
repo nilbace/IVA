@@ -9,14 +9,37 @@ public class ChattingManager : MonoBehaviour//
 {
     #region URL&StringLists
 
-    const string NameURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=A3:A";
+    const string NameURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=A2:A";
     List<string> ViewersNameList = new List<string>();
 
-    const string GaneChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=B3:B";
+    const string GaneChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=B2:B";
     List<string> GameChatList = new List<string>();
+
+    const string SingChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=C2:C";
+    List<string> SingChatList = new List<string>();
+
+    const string JustChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=D2:D";
+    List<string> JustChatList = new List<string>();
+
+    const string HorrorChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=E2:E";
+    List<string> HorrorChatList = new List<string>();
+
+    const string CookChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=F2:F";
+    List<string> CookChatList = new List<string>();
+
+    const string ChallengeChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=G2:G";
+    List<string> ChallengeChatList = new List<string>();
+
+    const string NewCloChatURL = "https://docs.google.com/spreadsheets/d/1WjIWPgya-w_QcNe6pWE_iug0bsF6uwTFDRY8j2MkO3o/export?format=tsv&range=H2:H";
+    List<string> NewCloChatList = new List<string>();
 
     #endregion
 
+    public static ChattingManager instance;
+    private void Awake()
+    {
+        instance = this;
+    }
 
     List<GameObject> ChatGOs = new List<GameObject>();
     public GameObject ClearChatGO;
@@ -34,10 +57,9 @@ public class ChattingManager : MonoBehaviour//
             ChatGOs.Add(childObject);
             childObject.SetActive(false);
         }
-         
         StartCoroutine(RequestListDatasFromSheet());
     }
-    //
+    
 
 
     IEnumerator RequestListDatasFromSheet()
@@ -45,13 +67,23 @@ public class ChattingManager : MonoBehaviour//
         //비동기 방식으로 서버에서 데이터를 읽어옴
         Coroutine chatCoroutine = StartCoroutine(RequestAndSetDatas(GaneChatURL, GameChatList));
         Coroutine nameCoroutine = StartCoroutine(RequestAndSetDatas(NameURL, ViewersNameList));
+        Coroutine singCoroutine = StartCoroutine(RequestAndSetDatas(SingChatURL, SingChatList));
+        Coroutine justchatcoroutine = StartCoroutine(RequestAndSetDatas(JustChatURL, JustChatList));
+        Coroutine horrorCoroutine = StartCoroutine(RequestAndSetDatas(HorrorChatURL, HorrorChatList));
+        Coroutine cookCorout = StartCoroutine(RequestAndSetDatas(CookChatURL, CookChatList));
+        Coroutine ChallengeCorou = StartCoroutine(RequestAndSetDatas(ChallengeChatURL, ChallengeChatList));
+        Coroutine newClothCor = StartCoroutine(RequestAndSetDatas(NewCloChatURL, NewCloChatList));
 
-        //두 개의 코루틴이 모두 완료될 때까지 기다림
+        //코루틴이 모두 완료될 때까지 기다림
         yield return chatCoroutine;
         yield return nameCoroutine;
+        yield return singCoroutine;
+        yield return justchatcoroutine;
+        yield return horrorCoroutine;
+        yield return cookCorout;
+        yield return ChallengeCorou;
+        yield return newClothCor;
 
-        //채팅 생성 시작
-        StartGenerateChattingByType(BroadCastType.Game);
     }
 
     IEnumerator RequestAndSetDatas(string www, List<string> list)
@@ -106,14 +138,38 @@ public class ChattingManager : MonoBehaviour//
             case BroadCastType.Game:
                 StartCoroutine(StartGenerateChatting(GameChatList));
                 break;
+
+            case BroadCastType.Sing:
+                StartCoroutine(StartGenerateChatting(SingChatList));
+                break;
+
+            case BroadCastType.Chat:
+                StartCoroutine(StartGenerateChatting(JustChatList));
+                break;
+
+            case BroadCastType.Horror:
+                StartCoroutine(StartGenerateChatting(HorrorChatList));
+                break;
+
+            case BroadCastType.Cook:
+                StartCoroutine(StartGenerateChatting(CookChatList));
+                break;
+
+            case BroadCastType.GameChallenge:
+                StartCoroutine(StartGenerateChatting(ChallengeChatList));
+                break;
+
+            case BroadCastType.NewClothe:
+                StartCoroutine(StartGenerateChatting(NewCloChatList));
+                break;
         }
 
     }
 
-    //채팅 나오는 시간 간격
+    [Header("채팅 사이의 시간")]
     [SerializeField] float minChatDelayTime;
     [SerializeField] float maxChatDelayTime;
-    //채팅 사이 간격
+    [Header("채팅 사이 간격")]
     [SerializeField] float SpaceBetweenChats;
 
 
@@ -157,11 +213,9 @@ public class ChattingManager : MonoBehaviour//
         }
     }
 
-    //새 채팅이 커지는 시간
+    [Header("채팅이 커지는 시간")]
     [SerializeField] float TimeForChatGetBigger;
-
-
-    [SerializeField] float ChatGenerateYPoz;
+    float ChatGenerateYPoz = -40.54f;
 
     /// <summary>
     /// qwer

@@ -8,9 +8,7 @@ using UnityEngine.UI;
 public class UI_SchedulePopup : UI_Popup
     //스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
 {
-
     public static UI_SchedulePopup instance; 
-
 
     enum Buttons
     {
@@ -69,7 +67,7 @@ public class UI_SchedulePopup : UI_Popup
 
         GetGameObject((int)GameObjects.SubContents4).SetActive(false);
 
-        for (int i = 0; i<7;i++)
+        for (int i = 0; i<7; i++)
             //7일들
         {
             int inttemp = i;
@@ -144,6 +142,7 @@ public class UI_SchedulePopup : UI_Popup
 
     #region BroadCast
     //방송 정보에 대한 스크립트
+
     [System.Serializable]
     [CreateAssetMenu(fileName = "ScheduleData", menuName = "Scriptable/ScheduleData", order = int.MaxValue)]
     public class ScheduleData : ScriptableObject
@@ -219,7 +218,7 @@ public class UI_SchedulePopup : UI_Popup
         Renewal4SubContentsBTN();
     }
 
-    int _nowpage = 0; int _MaxPage; int subcontentcount = 4;
+    int _nowpage = 0; int _MaxPage;
 
 
     void Renewal4SubContentsBTN()
@@ -313,18 +312,44 @@ public class UI_SchedulePopup : UI_Popup
 
     IEnumerator StartSchedule()
     {
-        for(int i =0; i<7;i ++)
+        for (int i =0; i<7; i++)
         {
-            Debug.Log("스케쥴 시작");
-            yield return new WaitForSeconds(3f);
-            
             Debug.Log("Action 실행");
             Debug.Log("스케쥴 종료");
+            yield return new WaitForSeconds(3f);
         }
         Debug.Log("결산 팝업창");
         Debug.Log("랜덤 이벤트 발생");
         Debug.Log("컷씬 발생");
     }
 
-    #endregion
+    void CarryOutOneDayWork(BroadCastType broadCastType)
+    {
+        switch (broadCastType)
+        {
+            case BroadCastType.Game:
+                break;
+            case BroadCastType.Sing:
+                break;
+            case BroadCastType.Chat:
+                break;
+            case BroadCastType.Horror:
+                break;
+            case BroadCastType.Cook:
+                break;
+            case BroadCastType.GameChallenge:
+                break;
+            case BroadCastType.NewClothe:
+                break;
+            case BroadCastType.MaxCount:
+                break;
+            default:
+                break;
+        }
+
+        #endregion
+
+
+
+    }
 }

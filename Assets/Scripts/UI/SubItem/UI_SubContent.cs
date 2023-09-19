@@ -36,6 +36,5 @@ public class UI_SubContent : UI_Base
     void SetSchedule()
     {
         UI_SchedulePopup.instance.SetDaySchedule(thisSubSchedleData);
-        print(thisSubSchedleData.KorName + "세팅 완료");
     }
 }
