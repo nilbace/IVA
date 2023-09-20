@@ -318,13 +318,14 @@ public class UI_SchedulePopup : UI_Popup
         {
             CarryOutOneDayWork(_SevenDayScheduleDatas[0].broadcastType);
             Debug.Log("스케쥴 종료");
+            UI_MainBackUI.instance.UpdateUItexts();
             yield return new WaitForSeconds(1f);
         }
         int aftersubsAmount = Managers.Data._myPlayerData.nowSubCount;
         Debug.Log($"구독자 변화량 : {aftersubsAmount - beforeSubsAmount}");
         Managers.Data._myPlayerData.StartWeek++;
         Managers.Data.SaveData();
-        ClosePopupUI();
+        UI_MainBackUI.instance.UpdateUItexts();
     }
 
     void CarryOutOneDayWork(BroadCastType broadCastType)
@@ -337,6 +338,8 @@ public class UI_SchedulePopup : UI_Popup
 
         Managers.Data._myPlayerData.nowSubCount += newSubs;
         Debug.Log($"구독자 증가량 : {newSubs}");
+
+        Managers.Data._myPlayerData.nowGoldAmount += Managers.Data._myPlayerData.nowSubCount * tempdatas.IncomeMagnificant;
 
         Managers.Data._myPlayerData.nowHealthStatus += tempdatas.HealthMinAmount;
         Managers.Data._myPlayerData.nowMentalStatus += tempdatas.MentalMinAmount;

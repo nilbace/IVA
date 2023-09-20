@@ -11,22 +11,6 @@ public class DataManager
     //정보 저장 및 가공 담당
 {
     public PlayerData _myPlayerData;
-
-    public string GetConditionByString(bool isHealth)
-    {
-        if(isHealth)
-        {
-            EllaCondition temp = _myPlayerData.HealthCondition;
-            string temp2 = Enum.GetName(typeof(EllaCondition), temp);
-            return temp2;
-        }
-        else
-        {
-            EllaCondition temp = _myPlayerData.MentalCondition;
-            string temp2 = Enum.GetName(typeof(EllaCondition), temp);
-            return temp2;
-        }
-    }
     
     public void Init()
     {
@@ -207,9 +191,7 @@ public class PlayerData
     public int StartWeek;
     public int nowSubCount;
     public int nowGoldAmount;
-    public EllaCondition HealthCondition;
     public int nowHealthStatus;
-    public EllaCondition MentalCondition;
     public int nowMentalStatus;
     public int GamimgStat;
     public int SingingStat;
@@ -223,9 +205,7 @@ public class PlayerData
         StartWeek = 1;
         nowSubCount = 0;
         nowGoldAmount = 0;
-        HealthCondition = EllaCondition.Healthy;
         nowHealthStatus = 100;
-        MentalCondition = EllaCondition.Healthy;
         nowMentalStatus = 100;
         GamimgStat = 0;
         SingingStat = 0;

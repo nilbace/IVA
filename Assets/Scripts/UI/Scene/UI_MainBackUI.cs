@@ -12,11 +12,19 @@ public class UI_MainBackUI : UI_Scene
         MentalTMP,  //현재 정신 상태
         MyMoneyTMP, //현재 보유 골드
         MySubsTMP,  // 현재 보유 구독자수
+        NowWeekTMP,
     }
 
     enum Buttons
     {
         CreateScheduleBTN
+    }
+
+    public static UI_MainBackUI instance;
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     void Start()
@@ -34,11 +42,13 @@ public class UI_MainBackUI : UI_Scene
 
         CreateScheduleBTN.onClick.AddListener(ShowOrCloseCreateSchedulePopup);
 
-        InitTextComponents();
+        UpdateUItexts();
     }
 
-    public void InitTextComponents()
-        //모든 Text받아와서 글자 설정하기
+    /// <summary>
+    /// 메인화면 텍스트들 갱신
+    /// </summary>
+    public void UpdateUItexts()
     {
         foreach (Texts textType in System.Enum.GetValues(typeof(Texts)))
         {
@@ -52,16 +62,38 @@ public class UI_MainBackUI : UI_Scene
         switch (textType)
         {
             case Texts.HealthTMP:
-                return Managers.Data.GetConditionByString(true);
+                return GetNowConditionToString(Managers.Data._myPlayerData.nowHealthStatus);
             case Texts.MentalTMP:
-                return Managers.Data.GetConditionByString(false);
+                return GetNowConditionToString(Managers.Data._myPlayerData.nowMentalStatus);
             case Texts.MyMoneyTMP:
                 return Managers.Data._myPlayerData.nowGoldAmount.ToString();
             case Texts.MySubsTMP:
                 return Managers.Data._myPlayerData.nowSubCount.ToString();
+            case Texts.NowWeekTMP:
+                return "방송 " +Managers.Data._myPlayerData.StartWeek.ToString()+"주차";
             default:
                 return "";
         }
+    }
+
+    string GetNowConditionToString(int n)
+    {
+        string temp = "";
+        if (n >= 75)
+        {
+            temp = "건강";
+        }
+        else if (n >= 50)
+        {
+            temp = "주의";
+        }
+        else if (n >= 25)
+        {
+            temp = "위험";
+        }
+        else temp = "심각";
+
+        return temp;
     }
 
     bool isPopupOpen = false;
