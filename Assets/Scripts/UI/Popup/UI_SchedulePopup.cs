@@ -422,5 +422,17 @@ public class UI_SchedulePopup : UI_Popup
         return result - now;
     }
 
+    private void OnDisable()
+    {
+        for(int i =0;i<7;i++)
+        {
+            if(_SevenDayScheduleDatas[i]!= null)
+            {
+                Managers.Data._myPlayerData.nowGoldAmount += _SevenDayScheduleDatas[i].MoneyCost;
+            }
+            UI_MainBackUI.instance.UpdateUItexts();
+        }
+    }
+
     #endregion
 }
