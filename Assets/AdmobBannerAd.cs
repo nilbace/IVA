@@ -26,6 +26,7 @@ public class AdmobBannerAd : MonoBehaviour
 #endif
 
         LoadAd();
+        ListenToAdEvents();
     }
 
     public void LoadAd() //±¤°í ·Îµå
