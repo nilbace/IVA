@@ -85,65 +85,37 @@ public class DataManager
         int temp2 = (temp-1) / 4;
         return weekBounsMagnification[temp2];
     }
-    public class OneDayDatas
-    {
-        public string Name;
-        public int FixSubIncrease;
-        public int PerSubIncrease;
-        public int HealthMinAmount;
-        public int MentalMinAmount;
-        public int IncomeMagnificant;
 
-        public OneDayDatas(string name = "", int fixSubIncrease=0, int perSubIncrease=0, int healthMinAmount=0, int mentalMinAmount=0, int incomeMagnificant=0)
-        {
-            Name = name;
-            FixSubIncrease = fixSubIncrease;
-            PerSubIncrease = perSubIncrease;
-            HealthMinAmount = healthMinAmount;
-            MentalMinAmount = mentalMinAmount;
-            IncomeMagnificant = incomeMagnificant;
-        }
-    }
-    OneDayDatas[] oneDayDatasArray = new OneDayDatas[(int)BroadCastType.MaxCount];
-    //추후 더해줄 예정
-    //이름에 따라 인덱스 찾는 함수 추가 예정
-    public OneDayDatas GetOneDayDataByName(BroadCastType broadCastType)
+    List<OneDayScheduleData> oneDayDatasList = new List<OneDayScheduleData>();
+   
+    public OneDayScheduleData GetOneDayDataByName(RestType restType)
     {
-        switch (broadCastType)
+        OneDayScheduleData temp = new OneDayScheduleData();
+        foreach(OneDayScheduleData one in oneDayDatasList)
         {
-            case BroadCastType.Game:
-                return oneDayDatasArray[0];
-            case BroadCastType.Sing:
-                return oneDayDatasArray[1];
-            case BroadCastType.Chat:
-                return oneDayDatasArray[2];
-            case BroadCastType.Horror:
-                return oneDayDatasArray[3];
-            case BroadCastType.Cook:
-                return oneDayDatasArray[4];
-            case BroadCastType.GameChallenge:
-                return oneDayDatasArray[5];
-            case BroadCastType.NewClothe:
-                return oneDayDatasArray[6];
+            if (one.restType == restType) temp = one;
         }
-        return null;
+        return temp;
     }
 
-    public OneDayDatas GetOneDayDataByName(RestType restType)
+    public OneDayScheduleData GetOneDayDataByName(BroadCastType restType)
     {
-        switch ((restType)
-)
+        OneDayScheduleData temp = new OneDayScheduleData();
+        foreach (OneDayScheduleData one in oneDayDatasList)
         {
-            case RestType.home:
-                break;
-            case RestType.chicken:
-                break;
-            case RestType.MaxCount:
-                break;
-            default:
-                break;
+            if (one.broadcastType == restType) temp = one;
         }
-        return null;
+        return temp;
+    }
+
+    public OneDayScheduleData GetOneDayDataByName(GoOutType restType)
+    {
+        OneDayScheduleData temp = new OneDayScheduleData();
+        foreach (OneDayScheduleData one in oneDayDatasList)
+        {
+            if (one.goOutType == restType) temp = one;
+        }
+        return temp;
     }
 
     public IEnumerator RequestAndSetDatas(string www)
@@ -154,37 +126,81 @@ public class DataManager
         string data = wwww.downloadHandler.text;
         string[] lines = data.Substring(0, data.Length - 1).Split('\n');
 
-        Queue<float> tempfloatList = new Queue<float>();
+        Queue<string> tempfloatList = new Queue<string>();
 
         foreach (string line in lines)
         {
             string templine = line.Substring(0, line.Length - 1);
-            float temp = float.Parse(templine);
-            tempfloatList.Enqueue(temp);
+            tempfloatList.Enqueue(templine);
         }
 
         for (int i = 0; i < 5; i++)
         {
-            weekBounsMagnification[i] = tempfloatList.Dequeue();
+            weekBounsMagnification[i] = float.Parse(tempfloatList.Dequeue());
         }
 
         for(int i = 0;i<(int)BroadCastType.MaxCount; i++)
         {
-            OneDayDatas temp = new OneDayDatas();
-            temp.Name = Enum.GetName(typeof(BroadCastType), i);
-            temp.FixSubIncrease = (int)tempfloatList.Dequeue();
-            temp.PerSubIncrease = (int)tempfloatList.Dequeue();
-            temp.HealthMinAmount = (int)tempfloatList.Dequeue();
-            temp.MentalMinAmount = (int)tempfloatList.Dequeue();
-            temp.IncomeMagnificant = (int)tempfloatList.Dequeue();
-            oneDayDatasArray[i] = temp;
+            OneDayScheduleData temp = new OneDayScheduleData();
+            temp.scheduleType = ScheduleType.BroadCast;
+            temp.broadcastType = (BroadCastType)i;
+            temp.KorName = tempfloatList.Dequeue();
+            temp.infotext = tempfloatList.Dequeue();
+            temp.FisSubsUpValue = float.Parse(tempfloatList.Dequeue());
+            temp.PerSubsUpValue = float.Parse(tempfloatList.Dequeue());
+            temp.HealthPointChangeValue = float.Parse(tempfloatList.Dequeue());
+            temp.MentalPointChageValue = float.Parse(tempfloatList.Dequeue());
+            temp.InComeMag = float.Parse(tempfloatList.Dequeue());
+            temp.MoneyCost = int.Parse(tempfloatList.Dequeue());
+            for(int j = 0;j<6; j++)
+            {
+                temp.Six_Stats[j] = int.Parse(tempfloatList.Dequeue());
+            }
+            oneDayDatasList.Add(temp);
         }
+        for (int i = 0; i <  (int)RestType.MaxCount; i++)
+        {
+            OneDayScheduleData temp = new OneDayScheduleData();
+            temp.scheduleType = ScheduleType.Rest;
+            temp.restType = (RestType)i;
+            temp.KorName = tempfloatList.Dequeue();
+            temp.infotext = tempfloatList.Dequeue();
+            temp.FisSubsUpValue = float.Parse(tempfloatList.Dequeue());
+            temp.PerSubsUpValue = float.Parse(tempfloatList.Dequeue());
+            temp.HealthPointChangeValue = float.Parse(tempfloatList.Dequeue());
+            temp.MentalPointChageValue = float.Parse(tempfloatList.Dequeue());
+            temp.InComeMag = float.Parse(tempfloatList.Dequeue());
+            temp.MoneyCost = int.Parse(tempfloatList.Dequeue());
+            for (int j = 0; j < 6; j++)
+            {
+                temp.Six_Stats[j] = int.Parse(tempfloatList.Dequeue());
+            }
+            oneDayDatasList.Add(temp);
+        }
+        for (int i = 0; i < (int)GoOutType.MaxCount; i++)
+        {
+            OneDayScheduleData temp = new OneDayScheduleData();
+            temp.scheduleType = ScheduleType.GoOut;
+            temp.goOutType = (GoOutType)i;
+            temp.KorName = tempfloatList.Dequeue();
+            temp.infotext = tempfloatList.Dequeue();
+            temp.FisSubsUpValue = float.Parse(tempfloatList.Dequeue());
+            temp.PerSubsUpValue = float.Parse(tempfloatList.Dequeue());
+            temp.HealthPointChangeValue = float.Parse(tempfloatList.Dequeue());
+            temp.MentalPointChageValue = float.Parse(tempfloatList.Dequeue());
+            temp.InComeMag = float.Parse(tempfloatList.Dequeue());
+            temp.MoneyCost = int.Parse(tempfloatList.Dequeue());
+            for (int j = 0; j < 6; j++)
+            {
+                temp.Six_Stats[j] = int.Parse(tempfloatList.Dequeue());
+            }
+            oneDayDatasList.Add(temp);
+        }
+
+        Debug.Log("시작 가능");
     }
 }
-public enum EllaCondition
-{
-    Healthy, Warning, Danger, Terrible
-}
+
 [System.Serializable]
 public class PlayerData
 {

@@ -6,7 +6,7 @@ using static UI_SchedulePopup;
 
 public class UI_SubContent : UI_Base
 {
-    public ScheduleData thisSubSchedleData;
+    public OneDayScheduleData thisSubSchedleData;
     public Button thisBTN;
 
     enum Texts
@@ -25,16 +25,33 @@ public class UI_SubContent : UI_Base
         Bind<TMP_Text>(typeof(Texts));
     }
 
-    public void SetInfo(ScheduleData scheduleData)
+    public void SetInfo(OneDayScheduleData scheduleData, int nowSchCost)
     {
+        if (scheduleData == null)
+        {
+            GetText(0).text = "";
+            thisBTN.interactable = false;
+            return;
+        }
+
         thisBTN.onClick.RemoveAllListeners();
         thisSubSchedleData = scheduleData;
         GetText(0).text = thisSubSchedleData.KorName;
-        thisBTN.onClick.AddListener(SetSchedule);
+        thisBTN.onClick.AddListener(() => SetSchedule(nowSchCost));
+        thisBTN.interactable = true;
+        if (Managers.Data._myPlayerData.nowGoldAmount+nowSchCost < scheduleData.MoneyCost)
+        {
+            thisBTN.interactable = false;
+        }
+
+        
     }
 
-    void SetSchedule()
+    void SetSchedule(int nowCost)
     {
+        Managers.Data._myPlayerData.nowGoldAmount += nowCost;
+        Managers.Data._myPlayerData.nowGoldAmount -= thisSubSchedleData.MoneyCost;
+        UI_MainBackUI.instance.UpdateUItexts();
         UI_SchedulePopup.instance.SetDaySchedule(thisSubSchedleData);
     }
 }

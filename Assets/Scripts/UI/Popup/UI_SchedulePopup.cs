@@ -77,8 +77,8 @@ public class UI_SchedulePopup : UI_Popup
         }
 
         GetButton((int)Buttons.BroadCastBTN).onClick.AddListener(BroadCastBTN);
-        GetButton((int)Buttons.RestBTN).onClick.AddListener(TempRestBTN);
-        GetButton((int)Buttons.GoOutBTN).onClick.AddListener(TempGoOutBTN);
+        GetButton((int)Buttons.RestBTN).onClick.AddListener(RestBTN);
+        GetButton((int)Buttons.GoOutBTN).onClick.AddListener(GoOutBTN);
 
         GetButton((int)Buttons.LeftPageBTN).onClick.AddListener(GoLeftPage);
         GetButton((int)Buttons.RightPageBTN).onClick.AddListener(GoRightPage);
@@ -103,8 +103,9 @@ public class UI_SchedulePopup : UI_Popup
     }
 
     SevenDays _nowSelectedDay = SevenDays.Monday;
-    ScheduleData[] _SevenDayScheduleDatas = new ScheduleData[7];
+    OneDayScheduleData[] _SevenDayScheduleDatas = new OneDayScheduleData[7];
     
+
     void ClickDay(int i)
     {
         _nowSelectedDay = (SevenDays)i;
@@ -141,19 +142,55 @@ public class UI_SchedulePopup : UI_Popup
         }
     }
 
-    #region BroadCast
-    //방송 정보에 대한 스크립트
-
-    [System.Serializable]
-    [CreateAssetMenu(fileName = "ScheduleData", menuName = "Scriptable/ScheduleData", order = int.MaxValue)]
-    public class ScheduleData : ScriptableObject
+    #region Schedules
+    public class OneDayScheduleData 
     {
         public string KorName;
+        public string infotext;
         public ScheduleType scheduleType;
         public BroadCastType broadcastType;
         public RestType restType;
         public GoOutType goOutType;
-        public string infotext;
+        public float FisSubsUpValue;
+        public float PerSubsUpValue;
+        public float HealthPointChangeValue;
+        public float MentalPointChageValue;
+        public float InComeMag;
+        public int MoneyCost;
+        public int[] Six_Stats;
+
+        public OneDayScheduleData()
+        {
+            KorName = "";
+            this.scheduleType = ScheduleType.Null;
+            this.broadcastType = BroadCastType.MaxCount;
+            this.restType = RestType.MaxCount;
+            this.goOutType = GoOutType.MaxCount;
+            this.infotext = "";
+            FisSubsUpValue = 0;
+            PerSubsUpValue = 0;
+            HealthPointChangeValue = 0;
+            MentalPointChageValue = 0;
+            InComeMag = 0;
+            MoneyCost = 0;
+            Six_Stats = new int[6];
+        }
+
+        public void PrintData()
+        {
+            Debug.Log("Korean Name: " + KorName);
+            Debug.Log("Info Text: " + infotext);
+            Debug.Log("Schedule Type: " + scheduleType);
+            Debug.Log("Broadcast Type: " + broadcastType);
+            Debug.Log("Rest Type: " + restType);
+            Debug.Log("Go Out Type: " + goOutType);
+            Debug.Log("Fis Subs Up Value: " + FisSubsUpValue);
+            Debug.Log("Per Subs Up Value: " + PerSubsUpValue);
+            Debug.Log("Health Point Change Value: " + HealthPointChangeValue);
+            Debug.Log("Mental Point Change Value: " + MentalPointChageValue);
+            Debug.Log("Income Magnitude: " + InComeMag);
+            Debug.Log("Money Cost: " + MoneyCost);
+        }
     }
 
     public enum BroadCastType
@@ -163,15 +200,17 @@ public class UI_SchedulePopup : UI_Popup
 
     public enum RestType
     { 
-        home, chicken, MaxCount
+        hea1, hea2,hea3, men1, men2, men3, MaxCount
     }
 
     public enum GoOutType
     {
-        songAcademy, GameAcademy, MaxCount
+        game1, game2, game3,     song1, song2, song3,    chat1, chat2, chat3,
+        hea1, hea2, hea3,        men1, men2, men3,       luck1, luck2, luck3,
+        MaxCount
     }
 
-    List<ScheduleData> nowSelectScheduleTypeList = new List<ScheduleData>();
+    
 
     void BroadCastBTN()
     {
@@ -180,39 +219,47 @@ public class UI_SchedulePopup : UI_Popup
         ChooseScheduleTypeAndFillList(ScheduleType.BroadCast);
 
     }
-    void TempRestBTN()
+    void RestBTN()
     {
-        ChangeNowSelectDayToNearestAndCheckFull();
-        RenewalDayBTNColor();
+        GetGameObject((int)GameObjects.Contents3).SetActive(false);
+        GetGameObject((int)GameObjects.SubContents4).SetActive(true);
+        ChooseScheduleTypeAndFillList(ScheduleType.Rest);
     }
 
-    void TempGoOutBTN()
+    void GoOutBTN()
     {
-        ChangeNowSelectDayToNearestAndCheckFull();
-        RenewalDayBTNColor();
+        GetGameObject((int)GameObjects.Contents3).SetActive(false);
+        GetGameObject((int)GameObjects.SubContents4).SetActive(true);
+        ChooseScheduleTypeAndFillList(ScheduleType.GoOut);
     }
 
+
+    List<OneDayScheduleData> nowSelectScheduleTypeList = new List<OneDayScheduleData>();
     void ChooseScheduleTypeAndFillList(ScheduleType type)
     {
         nowSelectScheduleTypeList.Clear();
         switch (type)
         {
             case ScheduleType.BroadCast:
-                string path = "ScheduleDatas/BroadCast/";
                 for (int i = 0; i < (int)BroadCastType.MaxCount; i++)
                 {
-                    string temppath = path + Enum.GetName(typeof(BroadCastType), (BroadCastType)i);
-                    ScheduleData tempdata = Managers.Resource.Load<ScheduleData>(temppath);
-                    nowSelectScheduleTypeList.Add(tempdata);
+                    nowSelectScheduleTypeList.Add(Managers.Data.GetOneDayDataByName((BroadCastType)i));
                 }
                 
                 break;
 
             case ScheduleType.Rest:
-
+                for (int i = 0; i < (int)RestType.MaxCount; i++)
+                {
+                    nowSelectScheduleTypeList.Add(Managers.Data.GetOneDayDataByName((RestType)i));
+                }
                 break;
 
             case ScheduleType.GoOut:
+                for (int i = 0; i < (int)GoOutType.MaxCount; i++)
+                {
+                    nowSelectScheduleTypeList.Add(Managers.Data.GetOneDayDataByName((GoOutType)i));
+                }
                 break;
         }
         _nowpage = 0;
@@ -248,12 +295,24 @@ public class UI_SchedulePopup : UI_Popup
         {
             if (isIndexExist(i))
             {
-                GetGameObject(3 + i).
-                    GetOrAddComponent<UI_SubContent>().SetInfo(nowSelectScheduleTypeList[nowIndex(i)]);
-                GetGameObject(3 + i).GetComponent<Button>().interactable = true;
+                if(_SevenDayScheduleDatas[(int)_nowSelectedDay] == null)
+                {
+                    GetGameObject(3 + i).
+                    GetOrAddComponent<UI_SubContent>().SetInfo(nowSelectScheduleTypeList[nowIndex(i)], 0);
+                }
+                else
+                {
+                    GetGameObject(3 + i).
+                    GetOrAddComponent<UI_SubContent>().SetInfo(nowSelectScheduleTypeList[nowIndex(i)], _SevenDayScheduleDatas[(int)_nowSelectedDay].MoneyCost);
+                }
+                
             }
             else
-                GetGameObject(3 + i).GetComponent<Button>().interactable = false;
+            {
+                GetGameObject(3 + i).
+                    GetOrAddComponent<UI_SubContent>().SetInfo(null, 0);
+            }
+                
         }
 
     }
@@ -284,7 +343,7 @@ public class UI_SchedulePopup : UI_Popup
         return i + (4 * _nowpage);
     }
 
-    public void SetDaySchedule(ScheduleData data)
+    public void SetDaySchedule(OneDayScheduleData data)
     {
         _SevenDayScheduleDatas[(int)_nowSelectedDay] = data;
         ChangeNowSelectDayToNearestAndCheckFull();
@@ -316,7 +375,7 @@ public class UI_SchedulePopup : UI_Popup
         int beforeSubsAmount = Managers.Data._myPlayerData.nowSubCount;
         for (int i =0; i<7; i++)
         {
-            CarryOutOneDayWork(_SevenDayScheduleDatas[0].broadcastType);
+            CarryOutOneDayWork(_SevenDayScheduleDatas[0]);
             Debug.Log("스케쥴 종료");
             UI_MainBackUI.instance.UpdateUItexts();
             yield return new WaitForSeconds(1f);
@@ -328,26 +387,35 @@ public class UI_SchedulePopup : UI_Popup
         UI_MainBackUI.instance.UpdateUItexts();
     }
 
-    void CarryOutOneDayWork(BroadCastType broadCastType)
+    void CarryOutOneDayWork(OneDayScheduleData oneDay)
     {
-        OneDayDatas tempdatas =  Managers.Data.GetOneDayDataByName(broadCastType);
         float nowWeekmag = Managers.Data.GetNowWeekBonusMag();
 
         int newSubs = CalculateSubAfterDay(Managers.Data._myPlayerData.nowSubCount,
-            tempdatas.FixSubIncrease, tempdatas.PerSubIncrease, nowWeekmag);
+            oneDay.FisSubsUpValue, oneDay.PerSubsUpValue, nowWeekmag);
+
+        
+
+        Managers.Data._myPlayerData.nowGoldAmount += Mathf.CeilToInt(Managers.Data._myPlayerData.nowSubCount * oneDay.InComeMag);
+        Debug.Log($"골드 증가량 : {Mathf.CeilToInt(Managers.Data._myPlayerData.nowSubCount * oneDay.InComeMag)}");
 
         Managers.Data._myPlayerData.nowSubCount += newSubs;
         Debug.Log($"구독자 증가량 : {newSubs}");
 
-        Managers.Data._myPlayerData.nowGoldAmount += Managers.Data._myPlayerData.nowSubCount * tempdatas.IncomeMagnificant;
+        Managers.Data._myPlayerData.nowHealthStatus += Mathf.CeilToInt(oneDay.HealthPointChangeValue);
+        Managers.Data._myPlayerData.nowMentalStatus += Mathf.CeilToInt(oneDay.MentalPointChageValue);
+        Debug.Log($"체력 변화량 : {oneDay.HealthPointChangeValue}");
+        Debug.Log($"멘탈 변화량 : {oneDay.MentalPointChageValue}");
 
-        Managers.Data._myPlayerData.nowHealthStatus += tempdatas.HealthMinAmount;
-        Managers.Data._myPlayerData.nowMentalStatus += tempdatas.MentalMinAmount;
-        Debug.Log($"체력 감소량 : {tempdatas.HealthMinAmount}");
-        Debug.Log($"정신력 감소량 : {tempdatas.MentalMinAmount}");
+        Managers.Data._myPlayerData.GamimgStat = oneDay.Six_Stats[0];
+        Managers.Data._myPlayerData.SingingStat = oneDay.Six_Stats[1];
+        Managers.Data._myPlayerData.ChattingStat = oneDay.Six_Stats[2];
+        Managers.Data._myPlayerData.HealthyStat = oneDay.Six_Stats[3];
+        Managers.Data._myPlayerData.MentalStat = oneDay.Six_Stats[4];
+        Managers.Data._myPlayerData.LuckStat = oneDay.Six_Stats[5];
     }
 
-    int CalculateSubAfterDay(int now, int fix, int per, float bonus)
+    int CalculateSubAfterDay(int now, float fix, float per, float bonus)
     {
         float temp = (now + fix) * ((float)(100 + per) / 100f) * bonus;
         int result = Mathf.CeilToInt(temp);
