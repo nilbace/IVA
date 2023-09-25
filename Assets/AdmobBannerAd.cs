@@ -22,7 +22,7 @@ public class AdmobBannerAd : MonoBehaviour
 #elif UNITY_IOS
             adUnitId = "ca-app-pub-3940256099942544/2934735716";
 #else
-            adUnitId = "unexpected_platform";
+            adUnitId = "ca-app-pub-3940256099942544/6300978111";
 #endif
 
         LoadAd();
@@ -52,9 +52,9 @@ public class AdmobBannerAd : MonoBehaviour
             DestroyAd();
         }
 
-        _bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Bottom);
-        AdSize adaptiveSize = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
-        this._bannerView = new BannerView(adUnitId, adaptiveSize, AdPosition.Bottom);
+        _bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+        //AdSize adaptiveSize = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
+        //this._bannerView = new BannerView(adUnitId, adaptiveSize, AdPosition.Top);
 
     }
 
