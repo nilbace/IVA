@@ -52,7 +52,7 @@ public class AdmobBannerAd : MonoBehaviour
             DestroyAd();
         }
 
-        _bannerView = new BannerView(adUnitId, AdSize.Banner, AdPosition.Top);
+        _bannerView = new BannerView(adUnitId, AdSize.SmartBanner, AdPosition.Top);
         //AdSize adaptiveSize = AdSize.GetCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(AdSize.FullWidth);
         //this._bannerView = new BannerView(adUnitId, adaptiveSize, AdPosition.Top);
 
