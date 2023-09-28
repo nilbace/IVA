@@ -32,4 +32,8 @@ public class Define : MonoBehaviour
     public enum CameraMode{
         QuaterView,
     }
+
+    public enum StatName {
+        Game, Song, Chat, Health, Mental, Luck
+    }
 }

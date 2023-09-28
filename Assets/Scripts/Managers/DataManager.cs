@@ -209,12 +209,7 @@ public class PlayerData
     public int nowGoldAmount;
     public int nowHealthStatus;
     public int nowMentalStatus;
-    public int GamimgStat;
-    public int SingingStat;
-    public int ChattingStat;
-    public int HealthyStat;
-    public int MentalStat;
-    public int LuckStat;
+    public int[] SixStat;
 
     public PlayerData()
     {
@@ -223,16 +218,38 @@ public class PlayerData
         nowGoldAmount = 0;
         nowHealthStatus = 100;
         nowMentalStatus = 100;
-        GamimgStat = 0;
-        SingingStat = 0;
-        HealthyStat = 0;
-        MentalStat = 0;
-        LuckStat = 0;
+        SixStat = new int[6];
     }
 
-    
+    public int GetHighestStat()
+    {
+        int temp = 0;
+        for(int i = 0;i<6;i++)
+        {
+            if(temp < SixStat[i])
+            {
+                temp = SixStat[i];
+            }
+        }
 
-    
+        return temp;
+    }
+
+    public Define.StatName GetHigestStatName()
+    {
+        Define.StatName temp = Define.StatName.Game;
+        int temp2 = 0;
+
+        for(int i = 0;i<6;i++)
+        {
+            if(temp2 < SixStat[i])
+            {
+                temp2 = SixStat[i];
+                temp = (Define.StatName)i;
+            }
+        }
+        return temp;
+    }
 
 }
 

@@ -381,7 +381,7 @@ public class UI_SchedulePopup : UI_Popup
             yield return new WaitForSeconds(1f);
         }
         int aftersubsAmount = Managers.Data._myPlayerData.nowSubCount;
-        Debug.Log($"구독자 변화량 : {aftersubsAmount - beforeSubsAmount}");
+        Debug.Log($"1주일 총 구독자 변화량 : {aftersubsAmount - beforeSubsAmount}");
         Managers.Data._myPlayerData.StartWeek++;
         Managers.Data.SaveData();
         UI_MainBackUI.instance.UpdateUItexts();
@@ -399,20 +399,23 @@ public class UI_SchedulePopup : UI_Popup
         Managers.Data._myPlayerData.nowGoldAmount += Mathf.CeilToInt(Managers.Data._myPlayerData.nowSubCount * oneDay.InComeMag);
         Debug.Log($"골드 증가량 : {Mathf.CeilToInt(Managers.Data._myPlayerData.nowSubCount * oneDay.InComeMag)}");
 
-        Managers.Data._myPlayerData.nowSubCount += newSubs;
-        Debug.Log($"구독자 증가량 : {newSubs}");
+        if(oneDay.scheduleType == ScheduleType.BroadCast)
+        {
+            Managers.Data._myPlayerData.nowSubCount += newSubs;
+            Debug.Log($"구독자 증가량 : {newSubs}");
+        }
 
         Managers.Data._myPlayerData.nowHealthStatus += Mathf.CeilToInt(oneDay.HealthPointChangeValue);
         Managers.Data._myPlayerData.nowMentalStatus += Mathf.CeilToInt(oneDay.MentalPointChageValue);
         Debug.Log($"체력 변화량 : {oneDay.HealthPointChangeValue}");
         Debug.Log($"멘탈 변화량 : {oneDay.MentalPointChageValue}");
 
-        Managers.Data._myPlayerData.GamimgStat = oneDay.Six_Stats[0];
-        Managers.Data._myPlayerData.SingingStat = oneDay.Six_Stats[1];
-        Managers.Data._myPlayerData.ChattingStat = oneDay.Six_Stats[2];
-        Managers.Data._myPlayerData.HealthyStat = oneDay.Six_Stats[3];
-        Managers.Data._myPlayerData.MentalStat = oneDay.Six_Stats[4];
-        Managers.Data._myPlayerData.LuckStat = oneDay.Six_Stats[5];
+        Managers.Data._myPlayerData.SixStat[0] = oneDay.Six_Stats[0];
+        Managers.Data._myPlayerData.SixStat[1] = oneDay.Six_Stats[1];
+        Managers.Data._myPlayerData.SixStat[2] = oneDay.Six_Stats[2];
+        Managers.Data._myPlayerData.SixStat[3] = oneDay.Six_Stats[3];
+        Managers.Data._myPlayerData.SixStat[4] = oneDay.Six_Stats[4];
+        Managers.Data._myPlayerData.SixStat[5] = oneDay.Six_Stats[5];
     }
 
     int CalculateSubAfterDay(int now, float fix, float per, float bonus)

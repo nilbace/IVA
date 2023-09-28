@@ -372,7 +372,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &132624208217058514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,7 +738,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761c7f702eade9d4d99250d43fee5a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisSubSchedleData: {fileID: 0}
   thisBTN: {fileID: 0}
 --- !u!1 &1398922760978325734
 GameObject:
@@ -1384,7 +1383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761c7f702eade9d4d99250d43fee5a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisSubSchedleData: {fileID: 0}
   thisBTN: {fileID: 0}
 --- !u!1 &2668127807103336139
 GameObject:
@@ -1896,7 +1894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761c7f702eade9d4d99250d43fee5a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisSubSchedleData: {fileID: 0}
   thisBTN: {fileID: 0}
 --- !u!1 &3370946320497788616
 GameObject:
@@ -3887,7 +3884,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 761c7f702eade9d4d99250d43fee5a34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisSubSchedleData: {fileID: 0}
   thisBTN: {fileID: 0}
 --- !u!1 &6982335054208497165
 GameObject:

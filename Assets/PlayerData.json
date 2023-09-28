@@ -1,13 +1,15 @@
 {
-    "StartWeek": 2,
+    "StartWeek": 3,
     "nowSubCount": 964,
-    "nowGoldAmount": 2320,
-    "nowHealthStatus": 51,
-    "nowMentalStatus": 51,
-    "GamimgStat": 0,
-    "SingingStat": 0,
-    "ChattingStat": 0,
-    "HealthyStat": 0,
-    "MentalStat": 0,
-    "LuckStat": 0
+    "nowGoldAmount": 1385,
+    "nowHealthStatus": 261,
+    "nowMentalStatus": 401,
+    "SixStat": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ]
 }
