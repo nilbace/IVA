@@ -375,8 +375,8 @@ public class UI_SchedulePopup : UI_Popup
     IEnumerator StartSchedule()
     {
         int beforeSubsAmount = Managers.Data._myPlayerData.nowSubCount;
-        int beforeHeart = Managers.Data._myPlayerData.nowHealthStatus;
-        int beforeStar = Managers.Data._myPlayerData.nowMentalStatus;
+        int beforeHeart = Managers.Data._myPlayerData.NowHeart;
+        int beforeStar = Managers.Data._myPlayerData.NowStar;
         for (int i =0; i<7; i++)
         {
             CarryOutOneDayWork(_SevenDayScheduleDatas[i]);
@@ -385,14 +385,19 @@ public class UI_SchedulePopup : UI_Popup
             yield return new WaitForSeconds(0.1f);
         }
         int aftersubsAmount = Managers.Data._myPlayerData.nowSubCount;
-        int afterHeart = Managers.Data._myPlayerData.nowHealthStatus;
-        int afterStar = Managers.Data._myPlayerData.nowMentalStatus;
+        int afterHeart = Managers.Data._myPlayerData.NowHeart;
+        int afterStar = Managers.Data._myPlayerData.NowStar;
         Debug.Log($"1주일 총 구독자 변화량 : {aftersubsAmount - beforeSubsAmount}");
         Debug.Log($"1주일 하트 구독자 변화량 : {afterHeart - beforeHeart}");
         Debug.Log($"1주일 별 구독자 변화량 : {afterStar - beforeStar}");
-        
-        Managers.UI_Manager.ShowPopupUI<UI_RandomEvent>();
+
         UI_MainBackUI.instance.UpdateUItexts();
+        UI_MainBackUI.instance.ShowOrCloseCreateSchedulePopup();
+        
+        
+        if(Managers.Data._myPlayerData.NowWeek % 5 != 0) Managers.UI_Manager.ShowPopupUI<UI_RandomEvent>();
+        //else                                             Managers.UI_Manager.ShowPopupUI  UI_Merchant
+
     }
 
     void CarryOutOneDayWork(OneDayScheduleData oneDay)
@@ -410,13 +415,13 @@ public class UI_SchedulePopup : UI_Popup
             Managers.Data._myPlayerData.nowSubCount += newSubs;
             Debug.Log($"구독자 증가량 : {newSubs}");
         }
-        Debug.Log($"하트 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.nowHealthStatus, 0, 100)- Managers.Data._myPlayerData.nowHealthStatus}" +
-            $"현재 하트 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.nowHealthStatus, 0, 100)}");
-        Debug.Log($"별 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.nowMentalStatus, 0, 100)- Managers.Data._myPlayerData.nowMentalStatus}" +
-            $"현제 별 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.nowMentalStatus, 0, 100)}");
+        Debug.Log($"하트 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.NowHeart, 0, 100)- Managers.Data._myPlayerData.NowHeart}" +
+            $"현재 하트 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.NowHeart, 0, 100)}");
+        Debug.Log($"별 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.NowStar, 0, 100)- Managers.Data._myPlayerData.NowStar}" +
+            $"현제 별 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.NowStar, 0, 100)}");
 
-        Managers.Data._myPlayerData.nowHealthStatus = Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.nowHealthStatus, 0, 100);
-        Managers.Data._myPlayerData.nowMentalStatus = Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue)  + Managers.Data._myPlayerData.nowMentalStatus, 0, 100);
+        Managers.Data._myPlayerData.NowHeart = Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.NowHeart, 0, 100);
+        Managers.Data._myPlayerData.NowStar = Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue)  + Managers.Data._myPlayerData.NowStar, 0, 100);
         
 
         Managers.Data._myPlayerData.SixStat[0] += oneDay.Six_Stats[0];

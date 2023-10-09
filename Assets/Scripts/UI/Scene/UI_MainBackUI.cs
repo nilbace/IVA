@@ -62,9 +62,9 @@ public class UI_MainBackUI : UI_Scene
         switch (textType)
         {
             case Texts.HealthTMP:
-                return GetNowConditionToString(Managers.Data._myPlayerData.nowHealthStatus);
+                return GetNowConditionToString(Managers.Data._myPlayerData.NowHeart);
             case Texts.MentalTMP:
-                return GetNowConditionToString(Managers.Data._myPlayerData.nowMentalStatus);
+                return GetNowConditionToString(Managers.Data._myPlayerData.NowStar);
             case Texts.MyMoneyTMP:
                 return Managers.Data._myPlayerData.nowGoldAmount.ToString();
             case Texts.MySubsTMP:
@@ -97,7 +97,7 @@ public class UI_MainBackUI : UI_Scene
     }
 
     bool isPopupOpen = false;
-    void ShowOrCloseCreateSchedulePopup()
+    public void ShowOrCloseCreateSchedulePopup()
     {
         TMP_Text CreateScheduleTMP = Get<Button>((int)Buttons.CreateScheduleBTN).GetComponentInChildren<TMP_Text>();
         if (isPopupOpen)

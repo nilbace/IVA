@@ -224,8 +224,8 @@ public class PlayerData
     public int NowWeek;
     public int nowSubCount;
     public int nowGoldAmount;
-    public int nowHealthStatus;
-    public int nowMentalStatus;
+    public int NowHeart;
+    public int NowStar;
     public int[] SixStat;
     public List<string> DoneEventNames;
 
@@ -234,8 +234,8 @@ public class PlayerData
         NowWeek = 1;
         nowSubCount = 0;
         nowGoldAmount = 0;
-        nowHealthStatus = 100;
-        nowMentalStatus = 100;
+        NowHeart = 100;
+        NowStar = 100;
         SixStat = new int[6];
         DoneEventNames = new List<string>();
     }

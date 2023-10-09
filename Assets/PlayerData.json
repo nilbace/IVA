@@ -1,33 +1,22 @@
 {
-    "NowWeek": 8,
-    "nowSubCount": 6367666,
-    "nowGoldAmount": 33275105,
-    "nowHealthStatus": 15,
-    "nowMentalStatus": 15,
+    "NowWeek": 5,
+    "nowSubCount": 524236,
+    "nowGoldAmount": 1569002,
+    "NowHeart": 51,
+    "NowStar": 51,
     "SixStat": [
-        226,
+        40,
         0,
         0,
         0,
-        27,
+        35,
         0
     ],
     "DoneEventNames": [
-        "뮹뮹 다이어트",
-        "자르반 84세와 만남",
-        "잼민이 맞짱",
-        "도수치료 직캠",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "저챗1",
-        "게임1",
-        "게임2",
-        ""
+        "보양식 방송",
+        "컨텐츠 표절 논란",
+        "스카이 다이빙",
+        "밀웜 먹방",
+        "게임1"
     ]
 }

@@ -70,10 +70,6 @@ public class REventManager
         {
             temp = GetMainEvent(tempEventDatasList);
         }
-        //else if(Managers.Data._myPlayerData.NowWeek % 5 == 0)
-        //{
-        //    //¶°»ó
-        //}
         else if(IsOnCondition(tempEventDatasList))
         {
             temp = tempConditionEvent;
