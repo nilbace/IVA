@@ -47,7 +47,21 @@ public class UI_Merchant : UI_Popup
         Bind<Button>(typeof(Buttons));
         Bind<GameObject>(typeof(GameObjects));
 
-        UpdateTexts();
+        Transform parent = GetGameObject((int)GameObjects.Content).transform;
+
+        foreach (Item temp in Managers.Data.ItemList)
+        {
+            if (temp.EntWeek == Managers.Data._myPlayerData.NowWeek)
+            {
+                itemList.Add(temp);
+            }
+        }
+
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            GameObject Go = Instantiate(ItemBTN, parent, false);
+            Go.GetComponent<MerChantItem>().Setting(itemList[i]);
+        }
 
         GetButton((int)Buttons.CloseBTN).onClick.AddListener(Close);
     }
@@ -63,24 +77,10 @@ public class UI_Merchant : UI_Popup
     public void UpdateTexts()
     {
         Transform parent = GetGameObject((int)GameObjects.Content).transform;
-        foreach (Transform child in parent)
-        {
-            Destroy(child.gameObject);
-        }
 
-        foreach (Item temp in Managers.Data.ItemList)
+        for(int i = 0; i<parent.childCount; i++)
         {
-            if (temp.EntWeek == Managers.Data._myPlayerData.NowWeek)
-            {
-                itemList.Add(temp);
-            }
-        }
-
-
-        for (int i = 0; i < itemList.Count; i++)
-        {
-            GameObject Go = Instantiate(ItemBTN, parent, false);
-            Go.GetComponent<MerChantItem>().Setting(itemList[i]);
+            parent.GetChild(i).GetComponent<MerChantItem>().Setting(itemList[i]);
         }
     }
 }

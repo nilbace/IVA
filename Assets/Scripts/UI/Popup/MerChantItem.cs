@@ -8,7 +8,7 @@ public class MerChantItem : MonoBehaviour
 {
     public TMPro.TMP_Text NameTmp;
     public TMPro.TMP_Text InfoTmp;
-    Item _thisItem;
+    public Item _thisItem;
 
     public void Setting(Item item)
     {
@@ -27,7 +27,7 @@ public class MerChantItem : MonoBehaviour
         }
         else
         {
-            NameTmp.text = "구매 불가";
+            NameTmp.text = _thisItem.ItemName + "구매 불가";
             InfoTmp.text = "";
             GetComponent<Button>().interactable = false;
         }
@@ -53,6 +53,7 @@ public class MerChantItem : MonoBehaviour
             Managers.Data._myPlayerData.SixStat[i] += _thisItem.SixStats[i];
         }
 
+        UI_MainBackUI.instance.UpdateUItexts();
         Managers.Data._myPlayerData.BoughtItems.Add(_thisItem.ItemName);
         Managers.Data.SaveData();
         UI_Merchant.instance.UpdateTexts();
