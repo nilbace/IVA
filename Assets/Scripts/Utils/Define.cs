@@ -64,5 +64,11 @@ public class Define : MonoBehaviour
         }
     }
 
+    public struct Bonus
+    {
+        public int SubBonus;
+        public int IncomeBonus;
+    }
+
 
 }

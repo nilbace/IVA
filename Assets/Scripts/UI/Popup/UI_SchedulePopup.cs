@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static DataManager;
+using static Define;
+
 /// <summary>
 /// 스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
 /// </summary>
@@ -197,7 +199,7 @@ public class UI_SchedulePopup : UI_Popup
 
     public enum BroadCastType
     {
-        Game, Sing, Chat, Horror, Cook, GameChallenge, NewClothe, MaxCount
+        Game, Song, Chat, Horror, Cook, GameChallenge, NewClothe, MaxCount
     }
 
     public enum RestType
@@ -415,8 +417,15 @@ public class UI_SchedulePopup : UI_Popup
             Managers.Data._myPlayerData.nowSubCount += newSubs;
             Debug.Log($"구독자 증가량 : {newSubs}");
         }
+
+        if(oneDay.broadcastType == BroadCastType.Game || oneDay.broadcastType == BroadCastType.Song || oneDay.broadcastType == BroadCastType.Chat)
+        {
+            CalculateBonus((StatName)Enum.Parse(typeof(StatName) ,oneDay.broadcastType.ToString()) , newSubs, Mathf.CeilToInt(Managers.Data._myPlayerData.nowSubCount * oneDay.InComeMag));
+        }
+
         Debug.Log($"하트 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.NowHeart, 0, 100)- Managers.Data._myPlayerData.NowHeart}" +
             $"현재 하트 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.NowHeart, 0, 100)}");
+
         Debug.Log($"별 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.NowStar, 0, 100)- Managers.Data._myPlayerData.NowStar}" +
             $"현제 별 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.NowStar, 0, 100)}");
 
@@ -437,6 +446,17 @@ public class UI_SchedulePopup : UI_Popup
         float temp = (now + fix) * ((float)(100 + per) / 100f) * bonus;
         int result = Mathf.CeilToInt(temp);
         return result - now;
+    }
+
+    void CalculateBonus(StatName statname, int DaySub, int DayIncome)
+    {
+        Bonus tempBonus = Managers.Data.GetProperty(statname);
+
+        Managers.Data._myPlayerData.nowGoldAmount += Mathf.CeilToInt(DayIncome * (tempBonus.IncomeBonus)/100f);
+        Debug.Log($"골드 보너스 증가량 : {Mathf.CeilToInt(DayIncome * ( tempBonus.IncomeBonus) / 100f)}");
+
+        Managers.Data._myPlayerData.nowSubCount += Mathf.CeilToInt(DaySub * ( tempBonus.IncomeBonus) / 100f);
+        Debug.Log($"구독자 보너스 증가량 : {Mathf.CeilToInt(DaySub * ( tempBonus.IncomeBonus) / 100f)}");
     }
 
     private void OnDisable()

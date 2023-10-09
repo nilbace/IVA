@@ -25,7 +25,6 @@ public class DataManager
 
     void LoadData()
     {
-        SetPropertys();
         string path;
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -276,25 +275,11 @@ public class DataManager
 
 
     #region StatProperty
-    public struct Bonus
-    {
-        public int SubBonus;
-        public int IncomeBonus;
-    }
 
-    public Bonus GamePropertyBonus;
-    public Bonus SongPropertyBonus;
-    public Bonus ChatPropertyBonus;
-
-    void SetPropertys()
-    {
-        SetProperty(StatName.Game, GamePropertyBonus);
-        SetProperty(StatName.Song, SongPropertyBonus);
-        SetProperty(StatName.Chat, ChatPropertyBonus);
-    }
-    void SetProperty(StatName statName, Bonus bonus)
+    public Bonus GetProperty(StatName statName)
     {
         int highestStat = Managers.Data._myPlayerData.SixStat[(int)statName];
+        Bonus bonus = new Bonus();
 
         if (highestStat >= 200)
         {
@@ -324,7 +309,7 @@ public class DataManager
         else if (highestStat >= 100)
         {
             bonus.SubBonus = 15;
-            bonus.IncomeBonus = 10; 
+            bonus.IncomeBonus = 10;
         }
         else if (highestStat >= 80)
         {
@@ -346,6 +331,8 @@ public class DataManager
             bonus.SubBonus = 5;
             bonus.IncomeBonus = 0;
         }
+
+        return bonus;
     }
 
 

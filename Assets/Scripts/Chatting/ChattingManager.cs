@@ -139,7 +139,7 @@ public class ChattingManager : MonoBehaviour//
                 StartCoroutine(StartGenerateChatting(GameChatList));
                 break;
 
-            case BroadCastType.Sing:
+            case BroadCastType.Song:
                 StartCoroutine(StartGenerateChatting(SingChatList));
                 break;
 

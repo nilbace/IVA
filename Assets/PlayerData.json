@@ -1,18 +1,21 @@
 {
     "NowWeek": 6,
-    "nowSubCount": 164,
-    "nowGoldAmount": 75,
-    "NowHeart": 2,
-    "NowStar": 2,
+    "nowSubCount": 1081,
+    "nowGoldAmount": 3795,
+    "NowHeart": 100,
+    "NowStar": 100,
     "SixStat": [
-        16,
-        1,
+        42,
+        22,
+        8,
         2,
-        2,
-        14,
+        18,
         1
     ],
-    "DoneEventNames": [],
+    "DoneEventNames": [
+        "밀웜 먹방",
+        "잼민이 맞짱"
+    ],
     "BoughtItems": [
         "수상한 마우스",
         "수상한 덤벨",
