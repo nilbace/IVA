@@ -1,28 +1,22 @@
 {
-    "NowWeek": 5,
-    "nowSubCount": 761,
-    "nowGoldAmount": 685,
-    "NowHeart": 0,
-    "NowStar": 0,
+    "NowWeek": 6,
+    "nowSubCount": 164,
+    "nowGoldAmount": 75,
+    "NowHeart": 2,
+    "NowStar": 2,
     "SixStat": [
-        53,
-        4,
+        16,
+        1,
         2,
         2,
-        53,
+        14,
         1
     ],
     "DoneEventNames": [],
     "BoughtItems": [
-        "수상한 덤벨",
-        "수상한 부적",
-        "수상한 물약",
         "수상한 마우스",
-        "수상한 마이크",
-        "수상한 마이크",
-        "수상한 책",
-        "수상한 책",
-        "수상한 책",
-        "수상한 책"
+        "수상한 덤벨",
+        "수상한 물약",
+        "수상한 부적"
     ]
 }

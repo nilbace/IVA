@@ -25,6 +25,12 @@ public class MerChantItem : MonoBehaviour
             InfoTmp.text += "행운 : " + _thisItem.SixStats[5].ToString();
             GetComponent<Button>().interactable = true;
         }
+        else if(IsBought(_thisItem))
+        {
+            NameTmp.text = _thisItem.ItemName + "구매 완료";
+            InfoTmp.text = "";
+            GetComponent<Button>().interactable = false;
+        }
         else
         {
             NameTmp.text = _thisItem.ItemName + "구매 불가";
@@ -32,6 +38,7 @@ public class MerChantItem : MonoBehaviour
             GetComponent<Button>().interactable = false;
         }
 
+        GetComponent<Button>().onClick.RemoveAllListeners();
         GetComponent<Button>().onClick.AddListener(Buy);
     }
 
