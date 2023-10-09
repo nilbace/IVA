@@ -5,9 +5,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static DataManager;
-
+/// <summary>
+/// 스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
+/// </summary>
 public class UI_SchedulePopup : UI_Popup
-    //스케쥴 관리와 방송 정보에 대한 정보가 담겨있는 스크립트
+    
 {
     public static UI_SchedulePopup instance; 
 
@@ -388,8 +390,8 @@ public class UI_SchedulePopup : UI_Popup
         Debug.Log($"1주일 총 구독자 변화량 : {aftersubsAmount - beforeSubsAmount}");
         Debug.Log($"1주일 하트 구독자 변화량 : {afterHeart - beforeHeart}");
         Debug.Log($"1주일 별 구독자 변화량 : {afterStar - beforeStar}");
-        Managers.Data._myPlayerData.StartWeek++;
-        Managers.Data.SaveData();
+        
+        Managers.UI_Manager.ShowPopupUI<UI_RandomEvent>();
         UI_MainBackUI.instance.UpdateUItexts();
     }
 
@@ -413,16 +415,16 @@ public class UI_SchedulePopup : UI_Popup
         Debug.Log($"별 변화량 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.nowMentalStatus, 0, 100)- Managers.Data._myPlayerData.nowMentalStatus}" +
             $"현제 별 : {Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue) + Managers.Data._myPlayerData.nowMentalStatus, 0, 100)}");
 
-        Managers.Data._myPlayerData.nowHealthStatus = Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue)+ Managers.Data._myPlayerData.nowHealthStatus, 0, 100);
-        Managers.Data._myPlayerData.nowMentalStatus = Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue)+ Managers.Data._myPlayerData.nowMentalStatus, 0, 100);
+        Managers.Data._myPlayerData.nowHealthStatus = Mathf.Clamp(Mathf.CeilToInt(oneDay.HealthPointChangeValue) + Managers.Data._myPlayerData.nowHealthStatus, 0, 100);
+        Managers.Data._myPlayerData.nowMentalStatus = Mathf.Clamp(Mathf.CeilToInt(oneDay.MentalPointChageValue)  + Managers.Data._myPlayerData.nowMentalStatus, 0, 100);
         
 
-        Managers.Data._myPlayerData.SixStat[0] = oneDay.Six_Stats[0];
-        Managers.Data._myPlayerData.SixStat[1] = oneDay.Six_Stats[1];
-        Managers.Data._myPlayerData.SixStat[2] = oneDay.Six_Stats[2];
-        Managers.Data._myPlayerData.SixStat[3] = oneDay.Six_Stats[3];
-        Managers.Data._myPlayerData.SixStat[4] = oneDay.Six_Stats[4];
-        Managers.Data._myPlayerData.SixStat[5] = oneDay.Six_Stats[5];
+        Managers.Data._myPlayerData.SixStat[0] += oneDay.Six_Stats[0];
+        Managers.Data._myPlayerData.SixStat[1] += oneDay.Six_Stats[1];
+        Managers.Data._myPlayerData.SixStat[2] += oneDay.Six_Stats[2];
+        Managers.Data._myPlayerData.SixStat[3] += oneDay.Six_Stats[3];
+        Managers.Data._myPlayerData.SixStat[4] += oneDay.Six_Stats[4];
+        Managers.Data._myPlayerData.SixStat[5] += oneDay.Six_Stats[5];
     }
 
     int CalculateSubAfterDay(int now, float fix, float per, float bonus)

@@ -70,7 +70,7 @@ public class UI_MainBackUI : UI_Scene
             case Texts.MySubsTMP:
                 return Managers.Data._myPlayerData.nowSubCount.ToString();
             case Texts.NowWeekTMP:
-                return "规价 " +Managers.Data._myPlayerData.StartWeek.ToString()+"林瞒";
+                return "规价 " +Managers.Data._myPlayerData.NowWeek.ToString()+"林瞒";
             default:
                 return "";
         }

@@ -7,11 +7,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 using static UI_SchedulePopup;
 
+/// <summary>
+/// 데이터 읽어오기 및 가공 담당 스크립트
+/// </summary>
 public class DataManager
-    //정보 저장 및 가공 담당
-{
+{ 
     public PlayerData _myPlayerData;
     
+
     public void Init()
     {
         LoadData();
@@ -81,7 +84,7 @@ public class DataManager
     float[] weekBounsMagnification = new float[5];
     public float GetNowWeekBonusMag()
     {
-        int temp = _myPlayerData.StartWeek;
+        int temp = _myPlayerData.NowWeek;
         int temp2 = (temp-1) / 4;
         return weekBounsMagnification[temp2];
     }
@@ -118,7 +121,7 @@ public class DataManager
         return temp;
     }
 
-    public IEnumerator RequestAndSetDatas(string www)
+    public IEnumerator RequestAndSetDayDatas(string www)
     {
         UnityWebRequest wwww = UnityWebRequest.Get(www);
         yield return wwww.SendWebRequest();
@@ -197,28 +200,44 @@ public class DataManager
             oneDayDatasList.Add(temp);
         }
 
-        Debug.Log("시작 가능");
+    }
+
+    public IEnumerator RequestAndSetRandEventDatas(string www)
+    {
+        UnityWebRequest wwww = UnityWebRequest.Get(www);
+        yield return wwww.SendWebRequest();
+
+        string data = wwww.downloadHandler.text;
+        string[] lines = data.Substring(0, data.Length - 1).Split('\n');
+
+
+        foreach(string temp in lines)
+        {
+            Managers.RandEvent.ProcessData(temp);
+        }
     }
 }
 
 [System.Serializable]
 public class PlayerData
 {
-    public int StartWeek;
+    public int NowWeek;
     public int nowSubCount;
     public int nowGoldAmount;
     public int nowHealthStatus;
     public int nowMentalStatus;
     public int[] SixStat;
+    public List<string> DoneEventNames;
 
     public PlayerData()
     {
-        StartWeek = 1;
+        NowWeek = 1;
         nowSubCount = 0;
         nowGoldAmount = 0;
         nowHealthStatus = 100;
         nowMentalStatus = 100;
         SixStat = new int[6];
+        DoneEventNames = new List<string>();
     }
 
     public int GetHighestStat()
@@ -250,6 +269,8 @@ public class PlayerData
         }
         return temp;
     }
+
+   
 
 }
 

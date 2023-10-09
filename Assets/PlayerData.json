@@ -1,15 +1,33 @@
 {
-    "StartWeek": 7,
-    "nowSubCount": 56926,
-    "nowGoldAmount": 408105,
-    "nowHealthStatus": 81,
-    "nowMentalStatus": 86,
+    "NowWeek": 8,
+    "nowSubCount": 6367666,
+    "nowGoldAmount": 33275105,
+    "nowHealthStatus": 15,
+    "nowMentalStatus": 15,
     "SixStat": [
-        1,
+        226,
         0,
         0,
         0,
-        1,
+        27,
         0
+    ],
+    "DoneEventNames": [
+        "뮹뮹 다이어트",
+        "자르반 84세와 만남",
+        "잼민이 맞짱",
+        "도수치료 직캠",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "저챗1",
+        "게임1",
+        "게임2",
+        ""
     ]
 }
