@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Define;
 
 public class UI_MainBackUI : UI_Scene
 {
@@ -11,13 +12,23 @@ public class UI_MainBackUI : UI_Scene
         HealthTMP,  //현재 건강 상태
         MentalTMP,  //현재 정신 상태
         MyMoneyTMP, //현재 보유 골드
-        MySubsTMP,  // 현재 보유 구독자수
+        MySubsTMP,  //현재 보유 구독자수
         NowWeekTMP,
+        GameStatTMP,
+        SongStatTMP,
+        ChatStatTMP,
+        StrStatTMP,
+        MentalStatTMP,
+        LuckStatTMP
     }
 
     enum Buttons
     {
-        CreateScheduleBTN
+        CreateScheduleBTN,
+        GameStatBTN,
+        SongStatBTN,
+        ChatStatBTN,
+        StrStatBTN, MentalStatBTN, LuckStatBTN
     }
 
     public static UI_MainBackUI instance;
@@ -32,6 +43,7 @@ public class UI_MainBackUI : UI_Scene
         Init();
     }
 
+    public StatName NowSelectStatProperty;
     private void Init()
     {
         base.Init();
@@ -41,8 +53,21 @@ public class UI_MainBackUI : UI_Scene
         Button CreateScheduleBTN = Get<Button>((int)Buttons.CreateScheduleBTN);
 
         CreateScheduleBTN.onClick.AddListener(ShowOrCloseCreateSchedulePopup);
+        GetButton((int)Buttons.GameStatBTN).onClick.AddListener(() => ShowStatProperty(StatName.Game));
+        GetButton((int)Buttons.SongStatBTN).onClick.AddListener(() => ShowStatProperty(StatName.Song));
+        GetButton((int)Buttons.ChatStatBTN).onClick.AddListener(() => ShowStatProperty(StatName.Chat));
+        GetButton((int)Buttons.StrStatBTN).onClick.AddListener(() => ShowStatProperty(StatName.Health));
+        GetButton((int)Buttons.MentalStatBTN).onClick.AddListener(() => ShowStatProperty(StatName.Mental));
+        GetButton((int)Buttons.LuckStatBTN).onClick.AddListener(() => ShowStatProperty(StatName.Luck));
+
 
         UpdateUItexts();
+    }
+
+    void ShowStatProperty(StatName statName)
+    {
+        var Go = Managers.UI_Manager.ShowPopupUI<UI_StatProperty>();
+        NowSelectStatProperty = statName;
     }
 
     /// <summary>
@@ -55,6 +80,13 @@ public class UI_MainBackUI : UI_Scene
             TMPro.TMP_Text tmpText = Get<TMPro.TMP_Text>((int)textType);
             tmpText.text = GetInitialTextForType(textType);
         }
+
+        Get<TMPro.TMP_Text>((int)Texts.GameStatTMP).text =   "게임 : " + Managers.Data._myPlayerData.SixStat[0];
+        Get<TMPro.TMP_Text>((int)Texts.SongStatTMP).text =   "노래 : " + Managers.Data._myPlayerData.SixStat[1];
+        Get<TMPro.TMP_Text>((int)Texts.ChatStatTMP).text =   "저챗 : " + Managers.Data._myPlayerData.SixStat[2];
+        Get<TMPro.TMP_Text>((int)Texts.StrStatTMP).text =    "근력 : " + Managers.Data._myPlayerData.SixStat[3];
+        Get<TMPro.TMP_Text>((int)Texts.MentalStatTMP).text = "멘탈 : " + Managers.Data._myPlayerData.SixStat[4];
+        Get<TMPro.TMP_Text>((int)Texts.LuckStatTMP).text =   "행운 : " + Managers.Data._myPlayerData.SixStat[5];
     }
 
     private string GetInitialTextForType(Texts textType)

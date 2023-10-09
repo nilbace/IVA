@@ -25,6 +25,7 @@ public class DataManager
 
     void LoadData()
     {
+        SetPropertys();
         string path;
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -79,8 +80,26 @@ public class DataManager
 
     }
 
+    //랜덤 이벤트 데이터 불러오기
+
+    public IEnumerator RequestAndSetRandEventDatas(string www)
+    {
+        UnityWebRequest wwww = UnityWebRequest.Get(www);
+        yield return wwww.SendWebRequest();
+
+        string data = wwww.downloadHandler.text;
+        string[] lines = data.Substring(0, data.Length - 1).Split('\n');
+
+        foreach (string temp in lines)
+        {
+            Managers.RandEvent.ProcessData(temp);
+        }
+    }
+
     #endregion
 
+
+    #region ScheduleData
 
     float[] weekBounsMagnification = new float[5];
     public float GetNowWeekBonusMag()
@@ -203,19 +222,9 @@ public class DataManager
 
     }
 
-    public IEnumerator RequestAndSetRandEventDatas(string www)
-    {
-        UnityWebRequest wwww = UnityWebRequest.Get(www);
-        yield return wwww.SendWebRequest();
+    #endregion
 
-        string data = wwww.downloadHandler.text;
-        string[] lines = data.Substring(0, data.Length - 1).Split('\n');
-
-        foreach(string temp in lines)
-        {
-            Managers.RandEvent.ProcessData(temp);
-        }
-    }
+   
 
     #region Merchant
     public List<Item> ItemList = new List<Item>();
@@ -260,6 +269,83 @@ public class DataManager
 
         tempitem.SixStats = tempint;
         ItemList.Add(tempitem);
+    }
+
+
+    #endregion
+
+
+    #region StatProperty
+    public struct Bonus
+    {
+        public int SubBonus;
+        public int IncomeBonus;
+    }
+
+    public Bonus GamePropertyBonus;
+    public Bonus SongPropertyBonus;
+    public Bonus ChatPropertyBonus;
+
+    void SetPropertys()
+    {
+        SetProperty(StatName.Game, GamePropertyBonus);
+        SetProperty(StatName.Song, SongPropertyBonus);
+        SetProperty(StatName.Chat, ChatPropertyBonus);
+    }
+    void SetProperty(StatName statName, Bonus bonus)
+    {
+        int highestStat = Managers.Data._myPlayerData.SixStat[(int)statName];
+
+        if (highestStat >= 200)
+        {
+            bonus.SubBonus = 25;
+            bonus.IncomeBonus = 25;
+        }
+        else if (highestStat >= 180)
+        {
+            bonus.SubBonus = 25;
+            bonus.IncomeBonus = 20;
+        }
+        else if (highestStat >= 160)
+        {
+            bonus.SubBonus = 20;
+            bonus.IncomeBonus = 20;
+        }
+        else if (highestStat >= 140)
+        {
+            bonus.SubBonus = 20;
+            bonus.IncomeBonus = 15;
+        }
+        else if (highestStat >= 120)
+        {
+            bonus.SubBonus = 15;
+            bonus.IncomeBonus = 15;
+        }
+        else if (highestStat >= 100)
+        {
+            bonus.SubBonus = 15;
+            bonus.IncomeBonus = 10; 
+        }
+        else if (highestStat >= 80)
+        {
+            bonus.SubBonus = 10;
+            bonus.IncomeBonus = 10;
+        }
+        else if (highestStat >= 60)
+        {
+            bonus.SubBonus = 10;
+            bonus.IncomeBonus = 5;
+        }
+        else if (highestStat >= 40)
+        {
+            bonus.SubBonus = 5;
+            bonus.IncomeBonus = 5;
+        }
+        else if (highestStat >= 20)
+        {
+            bonus.SubBonus = 5;
+            bonus.IncomeBonus = 0;
+        }
     }
 
 
