@@ -7,9 +7,12 @@ using static Define;
 public class UI_Merchant : UI_Popup
 {
     public static UI_Merchant instance;
+    public GameObject ItemBTN;
+    List<Item> itemList = new List<Item>();
+
     enum Buttons
     {
-        ResultBTN,
+        CloseBTN,
     }
     enum Texts
     {
@@ -20,6 +23,12 @@ public class UI_Merchant : UI_Popup
     {
         CutScene,
     }
+
+    enum GameObjects
+    {
+        Content,
+    }
+
 
     private void Awake()
     {
@@ -35,13 +44,12 @@ public class UI_Merchant : UI_Popup
     public override void Init()
     {
         base.Init();
-        Bind<Image>(typeof(Images));
         Bind<Button>(typeof(Buttons));
-        Bind<TMPro.TMP_Text>(typeof(Texts));
+        Bind<GameObject>(typeof(GameObjects));
 
+        UpdateTexts();
 
-        GetText((int)Texts.EventText);
-        GetButton((int)Buttons.ResultBTN).onClick.AddListener(Close);
+        GetButton((int)Buttons.CloseBTN).onClick.AddListener(Close);
     }
 
     void Close()
@@ -50,5 +58,29 @@ public class UI_Merchant : UI_Popup
         UI_MainBackUI.instance.UpdateUItexts();
         Managers.Data.SaveData();
         Managers.UI_Manager.ClosePopupUI();
+    }
+
+    public void UpdateTexts()
+    {
+        Transform parent = GetGameObject((int)GameObjects.Content).transform;
+        foreach (Transform child in parent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (Item temp in Managers.Data.ItemList)
+        {
+            if (temp.EntWeek == Managers.Data._myPlayerData.NowWeek)
+            {
+                itemList.Add(temp);
+            }
+        }
+
+
+        for (int i = 0; i < itemList.Count; i++)
+        {
+            GameObject Go = Instantiate(ItemBTN, parent, false);
+            Go.GetComponent<MerChantItem>().Setting(itemList[i]);
+        }
     }
 }

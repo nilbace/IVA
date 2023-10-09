@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using static UI_SchedulePopup;
+using static Define;
 
 /// <summary>
 /// 데이터 읽어오기 및 가공 담당 스크립트
@@ -210,12 +211,59 @@ public class DataManager
         string data = wwww.downloadHandler.text;
         string[] lines = data.Substring(0, data.Length - 1).Split('\n');
 
-
         foreach(string temp in lines)
         {
             Managers.RandEvent.ProcessData(temp);
         }
     }
+
+    #region Merchant
+    public List<Item> ItemList = new List<Item>();
+    public IEnumerator RequestAndSetItemDatas(string www)
+    {
+        UnityWebRequest wwww = UnityWebRequest.Get(www);
+        yield return wwww.SendWebRequest();
+
+        string data = wwww.downloadHandler.text;
+        string[] lines = data.Substring(0, data.Length).Split('\n');
+
+        foreach(string dattaa in lines)
+        {
+            SetItem(dattaa);
+        }
+    }
+
+    void SetItem(string data)
+    {
+        Queue<string> tempstrings = new Queue<string>();
+
+        string[] lines = data.Substring(0, data.Length - 1).Split('\t');
+
+        foreach (string date in lines)
+        {
+            tempstrings.Enqueue(date);
+        }
+
+
+        Item tempitem = new Item();
+
+        tempitem.EntWeek = int.Parse(tempstrings.Dequeue()); 
+        tempitem.ItemName = tempstrings.Dequeue();           
+        tempitem.Cost = int.Parse(tempstrings.Dequeue());    
+        tempitem.ItemImageName = tempstrings.Dequeue();      
+
+        int[] tempint = new int[6];
+        for (int j = 0; j < 6; j++)
+        {
+            tempint[j] = int.Parse(tempstrings.Dequeue());
+        }
+
+        tempitem.SixStats = tempint;
+        ItemList.Add(tempitem);
+    }
+
+
+    #endregion
 }
 
 [System.Serializable]
@@ -228,6 +276,7 @@ public class PlayerData
     public int NowStar;
     public int[] SixStat;
     public List<string> DoneEventNames;
+    public List<string> BoughtItems;
 
     public PlayerData()
     {
@@ -238,6 +287,7 @@ public class PlayerData
         NowStar = 100;
         SixStat = new int[6];
         DoneEventNames = new List<string>();
+        BoughtItems = new List<string>();
     }
 
     public int GetHighestStat()

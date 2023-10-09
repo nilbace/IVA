@@ -41,4 +41,28 @@ public class Define : MonoBehaviour
         Main, Random, Conditioned
     }
 
+    public struct Item
+    {
+        public string ItemName;
+        public int Cost;
+        public int[] SixStats;
+        public string ItemImageName;
+        public int EntWeek;
+
+        public Item(string itemName = "", int cost = 0, string itemImageName = "", int entWeek = 0)
+            : this(itemName, cost, itemImageName, entWeek, new int[6])
+        {
+        }
+
+        public Item(string itemName, int cost, string itemImageName, int entWeek, int[] sixStats)
+        {
+            ItemName = itemName;
+            Cost = cost;
+            SixStats = sixStats;
+            ItemImageName = itemImageName;
+            EntWeek = entWeek;
+        }
+    }
+
+
 }

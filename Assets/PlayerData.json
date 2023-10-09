@@ -1,22 +1,19 @@
 {
     "NowWeek": 5,
-    "nowSubCount": 524236,
-    "nowGoldAmount": 1569002,
+    "nowSubCount": 164,
+    "nowGoldAmount": 375,
     "NowHeart": 51,
     "NowStar": 51,
     "SixStat": [
-        40,
+        8,
         0,
         0,
         0,
-        35,
+        7,
         0
     ],
-    "DoneEventNames": [
-        "보양식 방송",
-        "컨텐츠 표절 논란",
-        "스카이 다이빙",
-        "밀웜 먹방",
-        "게임1"
+    "DoneEventNames": [],
+    "BoughtItems": [
+        "수상한 마우스"
     ]
 }

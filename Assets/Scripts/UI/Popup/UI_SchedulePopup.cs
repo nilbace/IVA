@@ -393,10 +393,10 @@ public class UI_SchedulePopup : UI_Popup
 
         UI_MainBackUI.instance.UpdateUItexts();
         UI_MainBackUI.instance.ShowOrCloseCreateSchedulePopup();
-        
-        
-        if(Managers.Data._myPlayerData.NowWeek % 5 != 0) Managers.UI_Manager.ShowPopupUI<UI_RandomEvent>();
-        //else                                             Managers.UI_Manager.ShowPopupUI  UI_Merchant
+
+
+        if (Managers.Data._myPlayerData.NowWeek % 5 != 0) Managers.UI_Manager.ShowPopupUI<UI_RandomEvent>();
+        else Managers.UI_Manager.ShowPopupUI<UI_Merchant>();
 
     }
 
