@@ -453,10 +453,9 @@ public class UI_SchedulePopup : UI_Popup
         Bonus tempBonus = Managers.Data.GetProperty(statname);
 
         Managers.Data._myPlayerData.nowGoldAmount += Mathf.CeilToInt(DayIncome * (tempBonus.IncomeBonus)/100f);
-        Debug.Log($"골드 보너스 증가량 : {Mathf.CeilToInt(DayIncome * ( tempBonus.IncomeBonus) / 100f)}");
 
         Managers.Data._myPlayerData.nowSubCount += Mathf.CeilToInt(DaySub * ( tempBonus.IncomeBonus) / 100f);
-        Debug.Log($"구독자 보너스 증가량 : {Mathf.CeilToInt(DaySub * ( tempBonus.IncomeBonus) / 100f)}");
+        Debug.Log($"골드 보너스 증가량 : {Mathf.CeilToInt(DayIncome * (tempBonus.IncomeBonus) / 100f)}  구독자 보너스 증가량 : {Mathf.CeilToInt(DaySub * ( tempBonus.IncomeBonus) / 100f)}");
     }
 
     private void OnDisable()
